@@ -12,7 +12,7 @@
 #'
 #' @importFrom splines bs
 
-estimate.vcergm = function(object, networks, attr = NULL,
+estimate_vcergm = function(object, networks, attr = NULL,
                            directed = c(TRUE, FALSE),
                            degree.spline = 3,
                            interior.knot = 10,

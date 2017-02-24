@@ -14,7 +14,7 @@
 #' @importFrom ergm simulate.ergm
 #' @importFrom network network
 
-test.statistic = function(object, networks, attr = NULL, B = NULL, 
+test_statistic = function(object, networks, attr = NULL, B = NULL, 
                           phicoef0 = NULL, phicoef1 = NULL, phi0 = NULL, phi1 = NULL, directed = c(TRUE, FALSE))
 {
   directed = directed[1]

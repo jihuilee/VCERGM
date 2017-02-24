@@ -12,7 +12,7 @@
 #' @importFrom network network
 #' @importFrom ergm ergm
 
-cross.sectional.ergm = function(object, networks, attr = NULL, directed = c(TRUE, FALSE), 
+cross.sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE, FALSE), 
                                 degree.spline = 3, interior.knot = 10,
                                 lambda.range = seq(-3, 3, by = 0.1))
   {

@@ -1,11 +1,11 @@
-#' Generate missing networks
+ #' Generate missing networks
 #'
 #' @param networks A list of (fully) observed networks
 #' @param num.missing Number of missing networks. Default is NULL.
 #' @param missing.time A list of time points with missing networks. Default is NULL.
 #' @param seed Seed number to generate missing.time when only num.missing is provided. Default seed number is 1.
 
-missing.network = function(networks, num.missing = NULL, missing.time = NULL, seed = 1)
+missing_network = function(networks, num.missing = NULL, missing.time = NULL, seed = 1)
   
 {
   set.seed(seed)

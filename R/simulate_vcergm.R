@@ -16,7 +16,7 @@
 #' @importFrom network network
 #' @importFrom ergm ergmMPLE
 
-simulate.vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
+simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
                            nsim = 100, MCMC.burnin = 10000,
                            MCMC.interval = 1000, seed = 123, directed = c(TRUE, FALSE))
   {
