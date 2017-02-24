@@ -1,0 +1,55 @@
+#' Plot the ERGM and VCERGM results
+#'
+#' @param ergmest ERGM estimate object
+#' @param vcergmest VCERGM estimate object
+
+plotting = function(ergmest, vcergmest)
+{
+  ergm.phi.hat = ergmest$phi.hat
+  ergm.phi.hat.smooth = ergmest$phi.hat.smooth
+  vcergm.phi.hat = vcergmest$phi.hat
+  
+  tseq = 1:ncol(ergm.phi.hat) # Number of time points
+  nstat = nrow(ergm.phi.hat) # Number of network statistics
+  stat = rownames(ergm.phi.hat) # Name of network statistics
+  
+  if (nstat > 3) {NRow = 2} else {NRow = 1}
+  
+  plot.dat = data.frame(Value = c(c(t(ergm.phi.hat)), c(t(ergm.phi.hat.smooth)), c(t(vcergm.phi.hat))),
+                        Method = rep(c("ERGM", "ERGM2", "VCERGM"),
+                                       each = nrow(ergm.phi.hat) * ncol(ergm.phi.hat)),
+                        Time = rep(1:ncol(ergm.phi.hat), nrow(ergm.phi.hat) * 3),
+                        Stat = rep(rep(stat, each = ncol(ergm.phi.hat)), 3))
+  
+  plist = vector("list", length(stat))
+  
+  for (i in 1:nstat)
+  {
+    plot.dat.i = plot.dat[plot.dat$Stat == stat[i], ]
+    plist[[i]] = ggplot(data = plot.dat.i, aes(x = as.factor(Time), y = Value,
+                                               col = Method, group = Method)) + 
+                  geom_line() + geom_point(size = 1) + xlab("Time") + ylab("Phi") + 
+                  scale_x_discrete(breaks = c(1, 5 * (1:floor(max(tseq)/5)))) +
+                  ggtitle(stat[i]) + theme(legend.position = "bottom")
+  }
+  
+  g_legend = function(a.gplot) {
+    tmp = ggplot_gtable(ggplot_build(a.gplot))
+    leg = which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+    legend = tmp$grobs[[leg]]
+    return(legend)}
+  
+  mylegend = g_legend(plist[[1]])
+  
+  for (i in 1:nstat) {plist[[i]] = plist[[i]] + theme(legend.position = "none") + 
+                                    theme(plot.title = element_text(hjust = 0.5))}
+  
+  plots = do.call("arrangeGrob", c(plist, ncol = nstat))
+  print(grid.arrange(plots, mylegend, heights = c(9/10, 1/10)))
+
+  plot2 = ggplot(data = plot.dat, aes(x = as.factor(Time), y = Value, 
+                      col = Method, group = Method), alpha = 0.8) +
+                      geom_line() + geom_point(size = 1) + 
+                      facet_grid(. ~ Stat) + xlab("Time") + ylab("Phi")
+  print(plot2)
+}
