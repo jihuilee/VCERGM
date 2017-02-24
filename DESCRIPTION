@@ -2,9 +2,9 @@ Package: VCERGM
 Title: What the Package Does (one line, title case)
 Version: 0.0.0.9000
 Authors@R: 
-person("Jihui", "Lee", email = "jl4201@cumc.columbia.edu", role = "aut"),
-person(c("James", "D."), "Wilson", email = "jdwilson4@usfca.edu", role = "aut"),
-person("Gen", "Li", email = "gl2521@cumc.columbia.edu", role = "aut")
+person("Jihui", "Lee", role = "aut", email = "jl4201@cumc.columbia.edu"),
+person(c("James", "D."), role = "aut", "Wilson", email = "jdwilson4@usfca.edu"),
+person("Gen", "Li", role = "aut", email = "gl2521@cumc.columbia.edu")
 Description: Varying-coefficient models for dynamic networks (Varying-coefficient exponential random graph models: VCERGM)
 Depends:
     R (>= 3.2.4)
