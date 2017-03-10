@@ -9,6 +9,6 @@ To install the package from Github, please use `devtools::install_github('jihuil
 
 ### Examples:
 
-The R code `Example/[Code]Simulation.R` 1) simulates a network, 2) produces the estimates of VCERGM and cross-sectional ERGMs, 3) plots the estimates, 4) computes the test statistic, and 5) generate bootstrap samples to calculate p-value.
+The R code `Example/[Code]Simulation.R` 1) simulates a network, 2) produces the estimates of VCERGM and cross-sectional ERGMs, 3) plots the estimates, 4) computes the test statistic, and 5) generates bootstrap samples to calculate p-value.
 
 The R code `Example/[Code]Application.R` replicates the political network data analysis presented in our paper.
