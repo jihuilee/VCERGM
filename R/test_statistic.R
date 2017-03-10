@@ -13,6 +13,7 @@
 #'
 #' @importFrom splines bs
 #' @importFrom network network
+#' @importFrom ergm summary.statistics
 #' @export
 
 test_statistic = function(object, networks, attr = NULL, degree.spline = 3, interior.knot = 3, 
