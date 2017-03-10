@@ -19,4 +19,3 @@ missing_network(networks, num.missing = NULL, missing.time = NULL,
 \description{
 Generate missing networks
 }
-

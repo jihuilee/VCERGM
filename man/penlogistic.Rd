@@ -29,4 +29,3 @@ penlogistic(y, H, weights, B, available.indx, degree.spline, constant,
 \description{
 Penalized logistic regression (GLM with roughness penalty on coefficient vector)
 }
-

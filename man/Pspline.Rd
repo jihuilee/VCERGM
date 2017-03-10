@@ -22,4 +22,3 @@ Pspline(y, H, lambda.range, B, available.indx, degree.spline)
 \description{
 Penalized B-spline function
 }
-

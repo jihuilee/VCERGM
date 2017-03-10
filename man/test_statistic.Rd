@@ -4,8 +4,9 @@
 \alias{test_statistic}
 \title{Hypothesis test for heterogeneity}
 \usage{
-test_statistic(object, networks, attr = NULL, B = NULL, phicoef0 = NULL,
-  phicoef1 = NULL, phi0 = NULL, phi1 = NULL, directed = c(TRUE, FALSE))
+test_statistic(object, networks, attr = NULL, degree.spline = 3,
+  interior.knot = 3, phicoef0 = NULL, phicoef1 = NULL, phi0 = NULL,
+  phi1 = NULL, directed = c(TRUE, FALSE))
 }
 \arguments{
 \item{object}{A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.}
@@ -14,7 +15,9 @@ test_statistic(object, networks, attr = NULL, B = NULL, phicoef0 = NULL,
 
 \item{attr}{A list of vertex attributes. Default is NULL. (i.e. No attributes)}
 
-\item{B}{A set of basis functions (K x q matrix)}
+\item{degree.spline}{Degree of splines. Default is 3 (cubic splines).}
+
+\item{interior.knot}{Number of interior knots to create splines. Default is 10.}
 
 \item{phicoef0}{Estimates of basis coefficients under H0}
 
@@ -29,4 +32,3 @@ test_statistic(object, networks, attr = NULL, B = NULL, phicoef0 = NULL,
 \description{
 Hypothesis test for heterogeneity
 }
-

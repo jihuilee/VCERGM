@@ -14,4 +14,3 @@ plotting(ergmest, vcergmest)
 \description{
 Plot the ERGM and VCERGM results
 }
-

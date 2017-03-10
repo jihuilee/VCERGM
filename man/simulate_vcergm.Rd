@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate_vcergm.R
 \name{simulate_vcergm}
 \alias{simulate_vcergm}
-\title{Simulate new networks at each time points}
+\title{Simulate new networks at each time point}
 \usage{
 simulate_vcergm(object, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
   nsim = 100, MCMC.burnin = 10000, MCMC.interval = 1000, seed = 123,
@@ -30,6 +30,5 @@ simulate_vcergm(object, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
 \item{directed}{TRUE for analyzing directed networks. FALSE for analyzing undirected networks.}
 }
 \description{
-Simulate new networks at each time points
+Simulate new networks at each time point
 }
-

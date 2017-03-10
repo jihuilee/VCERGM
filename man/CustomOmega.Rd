@@ -14,4 +14,3 @@ CustomOmega(B, available.indx)
 \description{
 Calculate Omega (Smoothness matrix)
 }
-

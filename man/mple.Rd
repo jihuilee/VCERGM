@@ -29,4 +29,3 @@ mple(object, networks, attr, directed, B, degree.spline, lambda.range, constant,
 \description{
 Calculate the MPLE of a specified VCERGM
 }
-

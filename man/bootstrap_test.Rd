@@ -41,4 +41,3 @@ bootstrap_test(object, networks, attr = NULL, phicoef0 = NULL,
 \description{
 Create bootstrap samples to calculate p-value
 }
-
