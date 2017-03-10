@@ -13,7 +13,9 @@
 #'
 #' @importFrom splines bs
 #' @importFrom network network
+#' @importFrom network as.matrix.network
 #' @importFrom ergm simulate.ergm
+#' @importFrom ergm control.simulate
 #' @importFrom ergm ergmMPLE
 #' @export
 
