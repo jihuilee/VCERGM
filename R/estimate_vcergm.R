@@ -11,6 +11,7 @@
 #' @param Tol Tolerance level used for calculating MPLE (IRLS iterations). Default is 0.01.
 #'
 #' @importFrom splines bs
+#' @export
 
 estimate_vcergm = function(object, networks, attr = NULL,
                            directed = c(TRUE, FALSE),

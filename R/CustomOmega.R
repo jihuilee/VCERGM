@@ -4,6 +4,7 @@
 #' @param available.indx A list of observed time points
 #'
 #' @importFrom splines bs
+#' @export
 
 CustomOmega = function(B, available.indx) 
   {

@@ -2,6 +2,21 @@
 #'
 #' @param ergmest ERGM estimate object
 #' @param vcergmest VCERGM estimate object
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 xlab
+#' @importFrom ggplot2 ylab
+#' @importFrom ggplot2 ggtitle
+#' @importFrom ggplot2 scale_x_discrete
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 ggplot_gtable
+#' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 ggplot_build
+#' @importFrom gridExtra grid.arrange
+#' @importFrom gridExtra arrangeGrob
+#' @export
 
 plotting = function(ergmest, vcergmest)
 {
@@ -26,8 +41,8 @@ plotting = function(ergmest, vcergmest)
   for (i in 1:nstat)
   {
     plot.dat.i = plot.dat[plot.dat$Stat == stat[i], ]
-    plist[[i]] = ggplot(data = plot.dat.i, aes(x = as.factor(Time), y = Value,
-                                               col = Method, group = Method)) + 
+    plist[[i]] = ggplot(data = plot.dat.i, 
+                        aes(x = as.factor(Time), y = Value, col = Method, group = Method)) + 
                   geom_line() + geom_point(size = 1) + xlab("Time") + ylab("Phi") + 
                   scale_x_discrete(breaks = c(1, 5 * (1:floor(max(tseq)/5)))) +
                   ggtitle(stat[i]) + theme(legend.position = "bottom")
@@ -47,9 +62,9 @@ plotting = function(ergmest, vcergmest)
   plots = do.call("arrangeGrob", c(plist, ncol = nstat))
   print(grid.arrange(plots, mylegend, heights = c(9/10, 1/10)))
 
-  plot2 = ggplot(data = plot.dat, aes(x = as.factor(Time), y = Value, 
-                      col = Method, group = Method), alpha = 0.8) +
-                      geom_line() + geom_point(size = 1) + 
-                      facet_grid(. ~ Stat) + xlab("Time") + ylab("Phi")
-  print(plot2)
+#  plot2 = ggplot(data = plot.dat, aes(x = as.factor(Time), y = Value, 
+#                      col = Method, group = Method), alpha = 0.8) +
+#                      geom_line() + geom_point(size = 1) + 
+#                      facet_grid(. ~ Stat) + xlab("Time") + ylab("Phi")
+#  print(plot2)
 }

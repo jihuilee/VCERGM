@@ -6,6 +6,7 @@
 #' @param B A set of basis functions (K x q matrix)
 #' @param available.indx A list of observed time points
 #' @param degree.spline Degree of splines. Default is 3 (cubic splines).
+#' @export
 
 Pspline = function(y, H, lambda.range, B, available.indx, degree.spline) 
   {

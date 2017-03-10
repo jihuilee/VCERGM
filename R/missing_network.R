@@ -4,6 +4,7 @@
 #' @param num.missing Number of missing networks. Default is NULL.
 #' @param missing.time A list of time points with missing networks. Default is NULL.
 #' @param seed Seed number to generate missing.time when only num.missing is provided. Default seed number is 1.
+#' @export
 
 missing_network = function(networks, num.missing = NULL, missing.time = NULL, seed = 1)
   

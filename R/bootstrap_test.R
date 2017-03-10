@@ -17,6 +17,7 @@
 #'
 #' @importFrom splines bs
 #' @importFrom ergm simulate.ergm
+#' @export
 
 bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 = NULL, teststat,
                           directed = FALSE, degree.spline = 3, interior.knot = 3, 
@@ -30,7 +31,7 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
   #replacing object with current network formula
   z = deparse(object[[3]])
   
-  if (is.null(phi0)) {phi0 = phicoef0 %*% Bnet}
+  if (is.null(phi0)) {phi0 = phicoef0 %*% t(Bnet)}
   
   # simulate bootstrap sample
   boot.networks = vector("list", NBoot)
@@ -56,7 +57,7 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
     formula.s = as.formula(paste("nets ~ ", z, sep = ""))
     
     # Use an existing function in package 'ergm'
-    sims = simulate(formula.s, coef = coefs, nsim = NBoot, seed = seed,
+    sims = simulate(object = formula.s, coef = coefs, nsim = NBoot, seed = seed,
                     control = control.simulate(MCMC.burnin = MCMC.burnin, MCMC.interval = MCMC.interval))
     
     netarray = array(NA, dim = c(num.nodes, num.nodes, NBoot))
@@ -76,13 +77,13 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
     suppressWarnings("glm.fit: fitted probabilities numerically 0 or 1 occurred")
     
     # H1
-    vcergm.false = estimate.vcergm(object = object, networks = net.b, attr = attr, 
+    vcergm.false = estimate_vcergm(object = object, networks = net.b, attr = attr, 
                                    degree.spline = degree.spline, interior.knot = interior.knot, 
                                    directed = directed,
                                    lambda.range = lambda.range, constant = FALSE)
     
     # H0 (Constant)
-    vcergm.true = estimate.vcergm(object = object, networks = net.b, attr = attr, 
+    vcergm.true = estimate_vcergm(object = object, networks = net.b, attr = attr, 
                                   degree.spline = degree.spline, interior.knot = interior.knot, 
                                   directed = directed,
                                   lambda.range = lambda.range, constant = TRUE)

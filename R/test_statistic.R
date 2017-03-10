@@ -3,7 +3,8 @@
 #' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'. 
 #' @param networks A list of observed networks. It should have a list() object.
 #' @param attr A list of vertex attributes. Default is NULL. (i.e. No attributes)
-#' @param B A set of basis functions (K x q matrix)
+#' @param degree.spline Degree of splines. Default is 3 (cubic splines).
+#' @param interior.knot Number of interior knots to create splines. Default is 10.
 #' @param phicoef0 Estimates of basis coefficients under H0
 #' @param phicoef1 Estimates of basis coefficients under H1
 #' @param phi0 Estimates of phi(t) under H0
@@ -11,13 +12,15 @@
 #' @param directed TRUE for analyzing directed networks. FALSE for analyzing undirected networks.
 #'
 #' @importFrom splines bs
-#' @importFrom ergm simulate.ergm
 #' @importFrom network network
+#' @export
 
-test_statistic = function(object, networks, attr = NULL, B = NULL, 
+test_statistic = function(object, networks, attr = NULL, degree.spline = 3, interior.knot = 3, 
                           phicoef0 = NULL, phicoef1 = NULL, phi0 = NULL, phi1 = NULL, directed = c(TRUE, FALSE))
 {
   directed = directed[1]
+  K = length(networks)
+  B = bs(1:K, df = degree.spline + 1 + interior.knot, degree = degree.spline, intercept = TRUE)
   
   sum = 0
   for (s in 1:length(networks))
@@ -39,7 +42,7 @@ test_statistic = function(object, networks, attr = NULL, B = NULL,
     if ((1 - is.null(phicoef0))*(1 - is.null(phicoef1)))
     {
       Bs = B[s,]
-      temp = test.stat.s(nets, attrs, object, Bs = Bs, 
+      temp = test.stat.s(nets, object, attrs, Bs = Bs, 
                          phicoef0 = phicoef0, phicoef1 = phicoef1, directed = directed)
     }
     
@@ -52,7 +55,7 @@ test_statistic = function(object, networks, attr = NULL, B = NULL,
         phi0s = phi0[,s]
         phi1s = phi1[,s]
       }
-      temp = test.stat.s(nets, attrs, object, phi0s = phi0s, phi1s = phi1s, directed = directed)
+      temp = test.stat.s(nets, object, attrs, phi0s = phi0s, phi1s = phi1s, directed = directed)
     }
     
     sum = sum + temp
@@ -61,7 +64,7 @@ test_statistic = function(object, networks, attr = NULL, B = NULL,
   return(sum)
 }
 
-test.stat.s = function(nets, attrs = NULL, object, Bs = NULL, 
+test.stat.s = function(nets, object, attrs = NULL, Bs = NULL, 
                        phicoef0 = NULL, phicoef1 = NULL, phi0s = NULL, phi1s = NULL, directed)
 {
   z = deparse(object[[3]])

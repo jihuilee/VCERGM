@@ -1,4 +1,4 @@
-#' Simulate new networks at each time points
+#' Simulate new networks at each time point
 #'
 #' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'. 
 #' @param num.nodes.K Number of nodes at each time point (K x 1 vector)
@@ -12,9 +12,10 @@
 #' @param directed TRUE for analyzing directed networks. FALSE for analyzing undirected networks.
 #'
 #' @importFrom splines bs
-#' 
 #' @importFrom network network
+#' @importFrom ergm simulate.ergm
 #' @importFrom ergm ergmMPLE
+#' @export
 
 simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
                            nsim = 100, MCMC.burnin = 10000,
@@ -63,9 +64,9 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
     formula.s = as.formula(paste("nets ~ ", z, sep = ""))
     
     # Use an existing function in package 'ergm'
-    sims = simulate(formula.s, coef = coefs, nsim = nsim,
-                     control = control.simulate(MCMC.burnin = MCMC.burnin,
-                                                MCMC.interval = MCMC.interval))
+    sims = simulate(object = formula.s, coef = coefs, nsim = nsim,
+                    control = control.simulate(MCMC.burnin = MCMC.burnin,
+                                               MCMC.interval = MCMC.interval))
     
     netarray = array(NA, dim = c(num.nodes, num.nodes, nsim))
     

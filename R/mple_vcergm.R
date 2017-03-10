@@ -12,6 +12,7 @@
 #' 
 #' @importFrom network network
 #' @importFrom ergm ergmMPLE
+#' @export
 
 mple = function(object, networks, attr, directed, B, degree.spline, lambda.range, constant, Tol)
   {

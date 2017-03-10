@@ -9,6 +9,7 @@
 #' @param constant TRUE for constrained model of homogeneous VCERGM. FALSE for unconstrained model for heterogeneous VCERGM. Default is FALSE.
 #' @param lambda.range Range of lambda (Tuning parameter)
 #' @param Tol Tolerance level used for calculating MPLE (IRLS iterations)
+#' @export
 
 penlogistic = function(y, H, weights, B, available.indx, degree.spline, constant, lambda.range, Tol)
   {
