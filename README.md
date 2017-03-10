@@ -2,7 +2,7 @@
 
 ## Varying-coefficient exponential random graph models (VCERGM) for dynamic networks
 
-This package implement the VCERGM to dynamic networks. You can find our paper `Varying-Coefficient Models for Dynamic Networks` [here](https://arxiv.org/abs/1702.03632).
+This package implements the VCERGM to dynamic networks. You can find our paper `Varying-Coefficient Models for Dynamic Networks` [here](https://arxiv.org/abs/1702.03632).
 
 ### Install the package 'VCERGM'
 To install the package from Github, please use `devtools::install_github('jihuilee/VCERGM')`.
