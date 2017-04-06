@@ -92,7 +92,11 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
     phi1 = as.matrix(vcergm.false$phi.hat)
     phi0 = as.matrix(vcergm.true$phi.hat)
     
-    boot.teststat[b] = test_statistic(net.b, attr, object, phi0 = phi0, phi1 = phi1, directed = directed)
+    boot.teststat[b] = test_statistic(object = object, networks = net, attr = attr,
+                                      phi0 = phi0, teststat = teststat[k],
+                                      degree.spline = degree.spline, interior.knot = interior.knot, 
+                                      directed = directed, NBoot = NBoot)$boot.teststat
+     
     cat("Calculating test statistic for bootstrap sample", b, "/", NBoot, "\n")
   }
   
