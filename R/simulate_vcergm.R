@@ -66,7 +66,7 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
     formula.s = as.formula(paste("nets ~ ", z, sep = ""))
     
     # Use an existing function in package 'ergm'
-    sims = simulate(object = formula.s, coef = coefs, nsim = nsim, seed = seed,
+    sims = simulate(object = formula.s, coef = coefs, nsim = nsim, seed = seed, 
                     control = control.simulate(MCMC.burnin = MCMC.burnin,
                                                MCMC.interval = MCMC.interval))
     
