@@ -2,7 +2,7 @@
 #'
 #' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'. 
 #' @param num.nodes.K Number of nodes at each time point (K x 1 vector)
-#' @param phi TRUE phi(t) functions (K x 1 vector) 
+#' @param phi TRUE phi(t) functions (number of network statistics x K vector) 
 #' @param phicoef TRUE basis coefficients (p x q matrix) 
 #' @param B A set of basis functions (K x q matrix)
 #' @param nsim Number of simulated networks. Default is 100.

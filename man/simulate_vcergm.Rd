@@ -13,7 +13,7 @@ simulate_vcergm(object, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
 
 \item{num.nodes.K}{Number of nodes at each time point (K x 1 vector)}
 
-\item{phi}{TRUE phi(t) functions (K x 1 vector)}
+\item{phi}{TRUE phi(t) functions (number of network statistics x K vector)}
 
 \item{phicoef}{TRUE basis coefficients (p x q matrix)}
 
