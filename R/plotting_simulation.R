@@ -116,8 +116,11 @@ for (k in 1:nstat)
 colnames(Summary) = c("ERGM", "ERGM2", "VCERGM")
 rownames(Summary) = stat
 
+mylegend = g_legend(plist[[1]])
+for (i in 1:length(plist)) {plist[[i]] = plist[[i]] + theme(legend.position = "none")}
+
 plots = do.call("arrangeGrob", c(plist, ncol = nstat))
-grid.arrange(plots)
+grid.arrange(plots, mylegend, heights = c(9/10, 1/10))
 
 return(Summary = Summary)
 }
