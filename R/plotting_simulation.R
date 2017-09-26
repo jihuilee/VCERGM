@@ -106,7 +106,7 @@ for (k in 1:nstat)
   quan.dat = rbind(ergm.k, ergm.smooth.k, vcergm.k)
   plist[[k]] = ggplot() + geom_ribbon(data = quan.dat, aes(x = as.factor(Time), ymin = Q1, ymax = Q3, 
                                                            group = Method, col = Method, fill = Method), alpha = 0.3, col = NA) +
-    scale_x_discrete(breaks = c(1, 10 * (1:floor(T/10)), T)) +
+    scale_x_discrete(breaks = c(1, 10 * (1:floor(K/10)), K)) +
     geom_line(data = quan.dat, aes(x = as.factor(Time), y = Median, group = Method, col = Method)) +
     geom_line(data = true.k, size = 0.5, alpha = 0.7, aes(x = as.factor(Time), y = Value, group = Method)) +
     xlab("Time") + ylab("") + theme(legend.position = "bottom")
