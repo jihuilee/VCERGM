@@ -100,6 +100,6 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
     cat("Calculating test statistic for bootstrap sample", b, "/", NBoot, "\n")
   }
 
-  pvalue = sum(teststat > boot.teststat) / NBoot
+  pvalue = sum(teststat < boot.teststat) / NBoot
   return(list(boot.networks = boot.networks, boot.teststat = boot.teststat, pvalue = pvalue))
 }
