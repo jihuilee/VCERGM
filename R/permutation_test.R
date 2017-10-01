@@ -23,6 +23,7 @@ permutation_test = function(object, networks, attr = NULL, teststat,
 
   Perm.seq = matrix(NA, nrow = NPerm, ncol = K)
   perm.teststat = rep(NA, NPerm)
+  
   for(p in 1:NPerm)
   {
     set.seed(seed + p)
@@ -41,6 +42,8 @@ permutation_test = function(object, networks, attr = NULL, teststat,
     # Calculating test statistic
     perm.teststat[p] = test_statistic(object = object, networks = net.p,
                                       phi0 = vcergm0$phi.hat, phi1 = vcergm1$phi.hat, directed = directed)
+    
+    cat("Calculating test statistic for permutated sample", p, "/", NPerm, "\n")ß
 
   }
   pvalue =  sum(teststat < perm.teststat) / NPerm

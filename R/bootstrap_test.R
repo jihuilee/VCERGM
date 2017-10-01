@@ -1,4 +1,4 @@
-#' Create bootstrap samples to calculate p-value
+z#' Create bootstrap samples to calculate p-value
 #'
 #' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.
 #' @param networks A list of observed networks. It should have a list() object.
@@ -92,8 +92,7 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
     phi1 = as.matrix(vcergm.false$phi.hat)
     phi0 = as.matrix(vcergm.true$phi.hat)
 
-    boot.teststat[b] = test_statistic(object = object, networks = net, attr = attr,
-                                      phi0 = phi0, teststat = teststat[k],
+    boot.teststat[b] = test_statistic(object = object, networks = net, attr = attr, phi0 = phi0,
                                       degree.spline = degree.spline, interior.knot = interior.knot,
                                       directed = directed, NBoot = NBoot)$boot.teststat
 
