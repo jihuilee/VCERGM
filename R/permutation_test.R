@@ -43,7 +43,7 @@ permutation_test = function(object, networks, attr = NULL, teststat,
     perm.teststat[p] = test_statistic(object = object, networks = net.p,
                                       phi0 = vcergm0$phi.hat, phi1 = vcergm1$phi.hat, directed = directed)
     
-    cat("Calculating test statistic for permutated sample", p, "/", NPerm, "\n")ß
+    cat("Calculating test statistic for permutated sample", p, "/", NPerm, "\n")
 
   }
   pvalue =  sum(teststat < perm.teststat) / NPerm
