@@ -41,8 +41,13 @@ simulate_vcergm2 = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B =
   if (is.null(B) == TRUE) {
     B = bs(1:K, df = q, degree = 3, intercept = TRUE) }
 
-  #Initialize the list of simulated networks and the statistics for each
+  # Initialize the list of simulated networks and the statistics for each
   network.sims = vector("list", nsim)
+  
+  # Network statistics
+  stat = unlist(strsplit(deparse(object[[3]]), " "))
+  stat = stat[!stat %in% c("+", "=", "TRUE)", "FALSE)")]
+  nstat = length(stat)
   
   if (is.null(phi) == FALSE) {p = nrow(phi)} else{p = nrow(phicoef)}  # number of network statistics
   
@@ -80,7 +85,7 @@ simulate_vcergm2 = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B =
     {
       network.sims[[1]][[s]] = as.matrix.network(sims, matrix.type = "adjacency")
       h.statistics[[1]][s,] = summary(as.formula(paste("sims ~ ", z, sep = "")))
-      if (is.null(rownames(phicoef)) == FALSE) {colnames(h.statistics[[1]]) = rownames(phicoef)}
+      colnames(h.statistics[[1]]) = stat
     }
     
     if (nsim > 1)
@@ -89,7 +94,7 @@ simulate_vcergm2 = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B =
       {
         network.sims[[i]][[s]] = as.matrix(sims[[i]], matrix.type = "adjacency")
         h.statistics[[i]][s, ] = as.matrix(attr(sims, "stats"))[i, ]
-        if (is.null(rownames(phicoef)) == FALSE) {colnames(h.statistics[[i]]) = rownames(phicoef)}
+        colnames(h.statistics[[i]]) = stat
       }
     }
     
