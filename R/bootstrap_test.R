@@ -1,4 +1,4 @@
-z#' Create bootstrap samples to calculate p-value
+#' Create bootstrap samples to calculate p-value
 #'
 #' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.
 #' @param networks A list of observed networks. It should have a list() object.
