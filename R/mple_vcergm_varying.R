@@ -66,9 +66,8 @@ mple2 = function(object, networks, attr, directed, B, degree.spline, lambda.rang
     
     # This only works for edges and mutuals
     h.stats = h.stats0
-    h.stats[,1] = (h.stats[,1] / (nnodes.s * (nnodes.s - 1))) * (mean.num.nodes * mean.num.nodes)
-    h.stats[,2] = (h.stats[,2] / (nnodes.s * (nnodes.s - 1) / 2)) * (mean.num.nodes * mean.num.nodes / 2)
-    
+    h.stats[,1] = (h.stats[,1] / (nnodes.s * (nnodes.s - 1)))
+    h.stats[,2] = (h.stats[,2] / (nnodes.s * (nnodes.s - 1) / 2))
     
     # weights
     ww[[s]] = temp$weight
