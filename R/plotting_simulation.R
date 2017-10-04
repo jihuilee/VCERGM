@@ -20,7 +20,7 @@
 #' @importFrom gridExtra arrangeGrob
 #' @export
 
-plotting_simulation = function(object, true.phi, ergm.phi.hat, ergm.phi.hat.smooth, vcergm.phi.hat)
+plotting_simulation = function(object, true.phi, ergm.phi.hat, ergm.phi.hat.smooth, vcergm.phi.hat, label = NULL)
 {
 # Number of simulations & time points
 nsim = length(ergm.phi.hat)
@@ -111,6 +111,8 @@ for (k in 1:nstat)
     geom_line(data = true.k, size = 0.5, alpha = 0.7, aes(x = as.factor(Time), y = Value, group = Method)) +
     xlab("Time") + ylab("") + theme(legend.position = "bottom")
   plist[[k]] = plist[[k]] + ggtitle(stat[k]) + theme(plot.title = element_text(hjust = 0.5))
+  
+  if (is.null(label) == FALSE) {plist[[k]] = plist[[k]] + ggtitle(label[k])}
 }
 
 colnames(Summary) = c("ERGM", "ERGM2", "VCERGM")

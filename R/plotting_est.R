@@ -18,7 +18,7 @@
 #' @importFrom gridExtra arrangeGrob
 #' @export
 
-plotting = function(ergmest, vcergmest)
+plotting = function(ergmest, vcergmest, label = NULL)
 {
   ergm.phi.hat = ergmest$phi.hat
   ergm.phi.hat.smooth = ergmest$phi.hat.smooth
@@ -46,6 +46,8 @@ plotting = function(ergmest, vcergmest)
                   geom_line() + geom_point(size = 1) + xlab("Time") + ylab("Phi") + 
                   scale_x_discrete(breaks = c(1, 5 * (1:floor(max(tseq)/5)))) +
                   ggtitle(stat[i]) + theme(legend.position = "bottom")
+    
+    if (is.null(label) == FALSE) {plist[[i]] = plist[[i]] + ggtitle(label[i])}
   }
   
   g_legend = function(a.gplot) {
