@@ -38,7 +38,7 @@ transform = function(dat, window = 200, overlap = 100)
     diag(corr.i) = 0
     Correlation[[i]] = corr.i
     
-    prec.i = solve(cor(dat.i))
+    prec.i = solve(cov(dat.i)) # standardize it to make it partial
     diag(prec.i) = 0
     Precision[[i]] = prec.i
   }
