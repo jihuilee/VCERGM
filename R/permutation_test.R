@@ -26,6 +26,8 @@ permutation_test = function(object, networks, attr = NULL, teststat,
   
   for(p in 1:NPerm)
   {
+    cat("Calculating test statistic for permuted sample", p, "/", NPerm, "\n")
+    
     set.seed(seed + p)
     # Permute the sequences to rearrange the observed networks
     Perm.seq[p, ] = perm.seq = sample(K)
@@ -42,11 +44,8 @@ permutation_test = function(object, networks, attr = NULL, teststat,
     # Calculating test statistic
     perm.teststat[p] = test_statistic(object = object, networks = net.p,
                                       phi0 = vcergm0$phi.hat, phi1 = vcergm1$phi.hat, directed = directed)
-    
-    cat("Calculating test statistic for permutated sample", p, "/", NPerm, "\n")
-
   }
   pvalue =  sum(teststat < perm.teststat) / NPerm
-  return(list(perm.teststat = perm.teststat, pvalue = pvalue))
+  return(list(perm.teststat = perm.teststat, perm.pvalue = pvalue))
 
 }
