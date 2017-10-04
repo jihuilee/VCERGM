@@ -17,14 +17,14 @@
 #' @export
 
 test_statistic = function(object, networks, attr = NULL, degree.spline = 3, interior.knot = 3, 
-                          phicoef0 = NULL, phicoef1 = NULL, phi0 = NULL, phi1 = NULL, directed = c(TRUE, FALSE))
+                          phicoef0 = NULL, phicoef1 = NULL, phi0 = NULL, phi1 = NULL, directed = c(TRUE, FALSE), Delta = NULL)
 {
   directed = directed[1]
   K = length(networks)
   B = bs(1:K, df = degree.spline + 1 + interior.knot, degree = degree.spline, intercept = TRUE)
   
   sum = 0
-  Delta = NULL
+  if (is.null(Delta) == TRUE) {Delta = vector("list", length(networks))}
   for (s in 1:length(networks))
   {
     nets = networks[[s]]
@@ -45,9 +45,9 @@ test_statistic = function(object, networks, attr = NULL, degree.spline = 3, inte
     {
       Bs = B[s,]
       stat.s = test.stat.s(nets, object, attrs, Bs = Bs, 
-                           phicoef0 = phicoef0, phicoef1 = phicoef1, directed = directed, Delta = Delta)
+                           phicoef0 = phicoef0, phicoef1 = phicoef1, directed = directed, Delta = Delta[[s]])
       temp = stat.s$teststat
-      Delta = stat.s$Delta
+      if (is.null(Delta[[s]]) == TRUE) {Delta[[s]] = stat.s$Delta}
     }
     
     if ((1 - is.null(phi0))*(1 - is.null(phi1)))
@@ -59,21 +59,19 @@ test_statistic = function(object, networks, attr = NULL, degree.spline = 3, inte
         phi0s = phi0[,s]
         phi1s = phi1[,s]
       }
-      stat.s = test.stat.s(nets, object, attrs, phi0s = phi0s, phi1s = phi1s,  
-                           directed = directed, Delta = Delta)
+      stat.s = test.stat.s(nets, object, attrs, phi0s = phi0s, phi1s = phi1s, directed = directed, Delta = Delta[[s]])
       temp = stat.s$teststat
-      Delta = stat.s$Delta
+      if (is.null(Delta[[s]]) == TRUE) {Delta[[s]] = stat.s$Delta}
     }
     
     sum = sum + temp
     cat("s is", s, "and sum is", sum, "\n")
   }
-  return(sum)
+  return(list(teststat = as.numeric(sum), Delta = Delta))
 }
 
 test.stat.s = function(nets, object, attrs = NULL, Bs = NULL, 
-                       phicoef0 = NULL, phicoef1 = NULL, phi0s = NULL, phi1s = NULL, directed,
-                       Delta = NULL)
+                       phicoef0 = NULL, phicoef1 = NULL, phi0s = NULL, phi1s = NULL, directed, Delta = NULL)
 {
   z = deparse(object[[3]])
   netc = c(nets)
@@ -92,8 +90,7 @@ test.stat.s = function(nets, object, attrs = NULL, Bs = NULL,
     netseq = netc[tri]
   }
   
-  if (is.null(Delta) == TRUE) {
-    
+  if(is.null(Delta) == TRUE) {
     Delta = matrix(NA, nrow = length(netseq), ncol = nstat)
     
     for (i in 1:length(netseq))

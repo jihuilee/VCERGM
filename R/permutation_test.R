@@ -15,7 +15,7 @@
 #' @importFrom ergm simulate.ergm
 #' @export
 
-permutation_test = function(object, networks, attr = NULL, teststat,
+permutation_test = function(object, networks, attr = NULL, teststat, Delta,
                             directed = FALSE, degree.spline = 3, interior.knot = 3,
                             lambda.range = seq(-3, 3, by = 0.1), NPerm = 100, seed = 12345)
 {
@@ -26,12 +26,11 @@ permutation_test = function(object, networks, attr = NULL, teststat,
   
   for(p in 1:NPerm)
   {
-    cat("Calculating test statistic for permuted sample", p, "/", NPerm, "\n")
-    
     set.seed(seed + p)
     # Permute the sequences to rearrange the observed networks
     Perm.seq[p, ] = perm.seq = sample(K)
     net.p = networks[perm.seq]
+    Delta.p = Delta[perm.seq]
 
     # H1 (vcergm)
     vcergm1 = estimate_vcergm(object = object, networks = net.p, degree.spline = degree.spline,
@@ -42,8 +41,9 @@ permutation_test = function(object, networks, attr = NULL, teststat,
                               interior.knot = interior.knot, directed = directed, constant = TRUE)
 
     # Calculating test statistic
+    cat("Calculating test statistic for permuted sample", p, "/", NPerm, "\n")
     perm.teststat[p] = test_statistic(object = object, networks = net.p,
-                                      phi0 = vcergm0$phi.hat, phi1 = vcergm1$phi.hat, directed = directed)
+                                      phi0 = vcergm0$phi.hat, phi1 = vcergm1$phi.hat, directed = directed, Delta = Delta.p)$teststat
   }
   pvalue =  sum(teststat < perm.teststat) / NPerm
   return(list(perm.teststat = perm.teststat, perm.pvalue = pvalue))
