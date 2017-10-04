@@ -20,3 +20,40 @@ g_legend = function(a.gplot) {
   leg = which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
   legend = tmp$grobs[[leg]]
   return(legend)}
+
+# (Transform) Correlation & Precision
+transform = function(dat, window = 200, overlap = 100)
+{
+  timepoint = (nrow(dat) - overlap)/(window - overlap)
+  
+  Correlation = Precision = vector("list", timepoint)
+  for (i in 1:timepoint)
+  {
+    loc1 = (i - 1) * (window - overlap) + 1
+    loc2 = i * window - (i - 1) * overlap
+    
+    dat.i = dat[loc1:loc2, ]
+    
+    corr.i = cor(dat.i)
+    diag(corr.i) = 0
+    Correlation[[i]] = corr.i
+    
+    prec.i = solve(cor(dat.i))
+    diag(prec.i) = 0
+    Precision[[i]] = prec.i
+  }
+  return(list(Correlation = Correlation, Precision = Precision))
+}
+
+# (Binary networks) Dichotomize correlation / precision
+threshold = function(networks, density = 0.1)
+{
+  new = vector("list", length(networks))
+  for(i in 1:length(networks))
+  {
+    net.i = networks[[i]]
+    thres = as.numeric(quantile(net.i, probs = 1 - density))
+    new[[i]] = (net.i > thres) + 0
+  }
+  return(new)
+}
