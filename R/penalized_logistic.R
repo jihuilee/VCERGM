@@ -68,19 +68,21 @@ penlogistic = function(y, H, weights, B, available.indx, degree.spline, constant
     if (constant == FALSE) 
     {
       # working covariate
-      H_working = diag(c(sw)) %*% H
+#      H_working = diag(c(sw)) %*% H
+      H_working = vec.mat.product(c(sw), H)
       
       # tuning
       lambda = GCV(y_working, H_working,Omega, lambda.range)
       
       # update IRLS+penalty
-      phicoef = solve(t(H_working) %*% H_working + n*lambda*Omega) %*% t(H_working) %*% y_working
+      phicoef = solve(crossprod(H_working, H_working) + n*lambda*Omega) %*% crossprod(H_working, y_working)
     }
     
     if (constant == TRUE) 
     {
       # working covariate
-      H_working = diag(c(sw)) %*% H
+#      H_working = diag(c(sw)) %*% H
+      H_working = vec.mat.product(c(sw), H)
       term = kronecker(as.matrix(rep(1, q)), diag(1, p.q/q, p.q/q))
       
       # tuning
@@ -89,7 +91,7 @@ penlogistic = function(y, H, weights, B, available.indx, degree.spline, constant
       H_working = diag(c(sw)) %*% H %*% term
       
       # update IRLS+penalty
-      phicoef0 = solve(t(H_working) %*% H_working + n*lambda * t(term) %*% Omega %*% term) %*% t(H_working) %*% y_working
+      phicoef0 = solve(crossprod(H_working, H_working) + n*lambda * t(term) %*% Omega %*% term) %*% crossprod(H_working, y_working)
       phicoef = matrix(phicoef0 %*% t(as.matrix(rep(1, q))))
     }
     
@@ -155,12 +157,27 @@ GCV = function(y, H, Omega, lambda.range){
     ############### H: length(y) x (q x p)
     ############### Omega: K x K
     
-    InvMat = solve(t(H) %*% H + n*lambda*Omega) # p*p matrix   
-    numerator = (1/n)*(t(y) %*% y - 2*t(y) %*% H %*% InvMat %*% t(H) %*% y + t(y) %*% H %*% InvMat %*% t(H) %*% H %*% InvMat %*% t(H) %*% y)
-    denominator = (1 - (1/n)*sum(diag(t(H) %*% H %*% InvMat)))^2
+    yy = crossprod(y, y)
+    HH = crossprod(H, H)
+    yH = crossprod(y, H)
+    
+    InvMat = solve(HH + n*lambda*Omega) # p*p matrix   
+    
+    numerator = (1/n)*(yy - 2* yH %*% InvMat %*% t(yH) + t(y) %*% H %*% InvMat %*% HH %*% InvMat %*% t(yH))
+    denominator = (1 - (1/n)*sum(diag(HH %*% InvMat)))^2
     CV_score[i] = numerator/denominator
   }
   ind = which.min(CV_score)
   bestlambda = lamrange[ind]
   return(bestlambda)
+}
+
+vec.mat.product = function(vec, mat)
+{
+  new = matrix(NA, nrow = nrow(mat), ncol = ncol(mat))
+  for(i in 1:length(vec))
+  {
+    new[i,] = vec[i] * mat[i,]
+  }
+  return(new)
 }
