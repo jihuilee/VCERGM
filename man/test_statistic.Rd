@@ -6,7 +6,7 @@
 \usage{
 test_statistic(object, networks, attr = NULL, degree.spline = 3,
   interior.knot = 3, phicoef0 = NULL, phicoef1 = NULL, phi0 = NULL,
-  phi1 = NULL, directed = c(TRUE, FALSE))
+  phi1 = NULL, directed = c(TRUE, FALSE), Delta = NULL)
 }
 \arguments{
 \item{object}{A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.}
