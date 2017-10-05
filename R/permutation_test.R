@@ -34,15 +34,15 @@ permutation_test = function(object, networks, attr = NULL, teststat, Delta,
 
     # H1 (vcergm)
     vcergm1 = estimate_vcergm(object = object, networks = net.p, degree.spline = degree.spline,
-                              interior.knot = interior.knot, directed = directed, constant = FALSE)
+                              lambda.range = lambda.range, interior.knot = interior.knot, directed = directed, constant = FALSE)
 
     # H0 (Constant)
     vcergm0 = estimate_vcergm(object, networks = net.p, degree.spline = degree.spline,
-                              interior.knot = interior.knot, directed = directed, constant = TRUE)
+                              lambda.range = lambda.range, interior.knot = interior.knot, directed = directed, constant = TRUE)
 
     # Calculating test statistic
     cat("Calculating test statistic for permuted sample", p, "/", NPerm, "\n")
-    perm.teststat[p] = test_statistic(object = object, networks = net.p,
+    perm.teststat[p] = test_statistic(object = object, networks = net.p, attr = attr,
                                       phi0 = vcergm0$phi.hat, phi1 = vcergm1$phi.hat, directed = directed, Delta = Delta.p)$teststat
   }
   pvalue =  sum(teststat < perm.teststat) / NPerm

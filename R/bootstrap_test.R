@@ -41,7 +41,7 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
     num.nodes = nrow(networks[[s]])
     Bs = matrix(Bnet[s,])
 
-    if(is.vector(phi0) == TRUE) {coefs = as.vector(phi0[s])} else {coefs = as.vector(phi0[,s])}
+    if(is.null(phi0) == FALSE) {coefs = as.vector(phi0[s])} else {coefs = as.vector(phicoef0 %*% Bs)}
 
     if (is.null(attr) == FALSE)
     {
@@ -71,7 +71,6 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
   boot.teststat = rep(NA, NBoot)
   for (b in 1:NBoot)
   {
-
     net.b = boot.networks[[b]]
 
     suppressWarnings("glm.fit: fitted probabilities numerically 0 or 1 occurred")
@@ -79,26 +78,24 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
     # H1
     vcergm.false = estimate_vcergm(object = object, networks = net.b, attr = attr,
                                    degree.spline = degree.spline, interior.knot = interior.knot,
-                                   directed = directed,
-                                   lambda.range = lambda.range, constant = FALSE)
+                                   directed = directed, lambda.range = lambda.range, constant = FALSE)
 
     # H0 (Constant)
     vcergm.true = estimate_vcergm(object = object, networks = net.b, attr = attr,
                                   degree.spline = degree.spline, interior.knot = interior.knot,
-                                  directed = directed,
-                                  lambda.range = lambda.range, constant = TRUE)
+                                  directed = directed, lambda.range = lambda.range, constant = TRUE)
 
 
     phi1 = as.matrix(vcergm.false$phi.hat)
     phi0 = as.matrix(vcergm.true$phi.hat)
 
-    boot.teststat[b] = test_statistic(object = object, networks = net, attr = attr, phi0 = phi0,
+    boot.teststat[b] = test_statistic(object = object, networks = net.b, attr = attr, phi0 = phi0, phi1 = phi1,
                                       degree.spline = degree.spline, interior.knot = interior.knot,
-                                      directed = directed, NBoot = NBoot)$boot.teststat
+                                      directed = directed)$teststat
 
     cat("Calculating test statistic for bootstrap sample", b, "/", NBoot, "\n")
   }
 
   pvalue = sum(teststat < boot.teststat) / NBoot
-  return(list(boot.networks = boot.networks, boot.teststat = boot.teststat, pvalue = pvalue))
+  return(list(boot.networks = boot.networks, boot.teststat = boot.teststat, boot.pvalue = pvalue))
 }
