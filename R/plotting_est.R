@@ -18,7 +18,7 @@
 #' @importFrom gridExtra arrangeGrob
 #' @export
 
-plotting = function(ergmest, vcergmest, label = NULL)
+plotting = function(ergmest, vcergmest, interval = 10, label = NULL)
 {
   ergm.phi.hat = ergmest$phi.hat
   ergm.phi.hat.smooth = ergmest$phi.hat.smooth
@@ -44,7 +44,7 @@ plotting = function(ergmest, vcergmest, label = NULL)
     plist[[i]] = ggplot(data = plot.dat.i, 
                         aes(x = as.factor(Time), y = Value, col = Method, group = Method)) + 
                   geom_line() + geom_point(size = 1) + xlab("Time") + ylab("Phi") + 
-                  scale_x_discrete(breaks = c(1, 5 * (1:floor(max(tseq)/5)))) +
+                  scale_x_discrete(breaks = c(1, interval * (1:floor(max(tseq)/interval)))) +
                   ggtitle(stat[i]) + theme(legend.position = "bottom")
     
     if (is.null(label) == FALSE) {plist[[i]] = plist[[i]] + ggtitle(label[i])}
