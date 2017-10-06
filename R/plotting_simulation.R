@@ -58,9 +58,9 @@ for (i in 1:nsim)
 
   for (p in 1:nstat)
   {
-    plot.ergm0[[p]][,i] = result$ergm.phi.hat[[i]][p,]
-    plot.ergm.smooth0[[p]][,i]  = result$ergm.phi.hat.smooth[[i]][p,]
-    plot.vcergm0[[p]][,i]  = result$vcergm.phi.hat[[i]][p,]
+    plot.ergm0[[p]][,i] = ergm.phi.hat[[i]][p,]
+    plot.ergm.smooth0[[p]][,i]  = ergm.phi.hat.smooth[[i]][p,]
+    plot.vcergm0[[p]][,i]  = vcergm.phi.hat[[i]][p,]
   }
 
   index = rep(i, K * nstat)
