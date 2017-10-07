@@ -88,7 +88,8 @@ penlogistic = function(y, H, weights, B, available.indx, degree.spline, constant
       # tuning
       lambda = GCV(y_working, H_working, Omega, lambda.range)
       
-      H_working = diag(c(sw)) %*% H %*% term
+#      H_working = diag(c(sw)) %*% H %*% term
+       H_working = H_working %*% term
       
       # update IRLS+penalty
       phicoef0 = solve(crossprod(H_working, H_working) + n*lambda * t(term) %*% Omega %*% term) %*% crossprod(H_working, y_working)
