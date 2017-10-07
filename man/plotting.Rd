@@ -4,7 +4,7 @@
 \alias{plotting}
 \title{Plot the ERGM and VCERGM results}
 \usage{
-plotting(ergmest, vcergmest, label = NULL)
+plotting(ergmest, vcergmest, interval = 10, label = NULL)
 }
 \arguments{
 \item{ergmest}{ERGM estimate object}
