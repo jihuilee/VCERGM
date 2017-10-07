@@ -43,7 +43,7 @@ plotting = function(ergmest, vcergmest, interval = 10, label = NULL)
     plot.dat.i = plot.dat[plot.dat$Stat == stat[i], ]
     plist[[i]] = ggplot(data = plot.dat.i, 
                         aes(x = as.factor(Time), y = Value, col = Method, group = Method)) + 
-                  geom_line() + geom_point(size = 1) + xlab("Time") + ylab("Phi") + 
+                  geom_line() + geom_point(size = 1) + xlab("Time") + ylab(expression(hat(phi)(t))) + 
                   scale_x_discrete(breaks = c(1, interval * (1:floor(max(tseq)/interval)))) +
                   ggtitle(stat[i]) + theme(legend.position = "bottom")
     

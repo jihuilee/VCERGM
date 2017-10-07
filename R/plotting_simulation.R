@@ -110,7 +110,7 @@ for (k in 1:nstat)
     scale_x_discrete(breaks = c(1, interval * (1:floor(K/interval)), K)) +
     geom_line(data = quan.dat, aes(x = as.factor(Time), y = Median, group = Method, col = Method)) +
     geom_line(data = true.k, size = 0.5, alpha = 0.7, aes(x = as.factor(Time), y = Value, group = Method)) +
-    xlab("Time") + ylab("") + theme(legend.position = "bottom")
+    xlab("Time") + ylab(expression(hat(phi)(t))) + theme(legend.position = "bottom")
   plist[[k]] = plist[[k]] + ggtitle(stat[k]) + theme(plot.title = element_text(hjust = 0.5))
 
   if (is.null(label) == FALSE) {plist[[k]] = plist[[k]] + ggtitle(label[k])}
