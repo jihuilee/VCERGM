@@ -33,11 +33,11 @@ permutation_test = function(object, networks, attr = NULL, teststat, Delta,
     Delta.p = Delta[perm.seq]
 
     # H1 (vcergm)
-    vcergm1 = estimate_vcergm(object = object, networks = net.p, degree.spline = degree.spline,
+    vcergm1 = estimate_vcergm(object = object, networks = net.p, degree.spline = degree.spline, attr = attr,
                               lambda.range = lambda.range, interior.knot = interior.knot, directed = directed, constant = FALSE)
 
     # H0 (Constant)
-    vcergm0 = estimate_vcergm(object, networks = net.p, degree.spline = degree.spline,
+    vcergm0 = estimate_vcergm(object, networks = net.p, degree.spline = degree.spline, attr = attr,
                               lambda.range = lambda.range, interior.knot = interior.knot, directed = directed, constant = TRUE)
 
     # Calculating test statistic

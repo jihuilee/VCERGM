@@ -14,7 +14,7 @@
 penlogistic = function(y, H, weights, B, available.indx, degree.spline, constant, lambda.range, Tol)
   {
   # set initial values
-  Niter = 100
+  Niter = 10 # 100
   temp = dim(H)
   n = temp[1]
   q = ncol(B)
