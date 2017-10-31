@@ -4,7 +4,7 @@
 \alias{permutation_test}
 \title{Create permuted samples to calculate p-value}
 \usage{
-permutation_test(object, networks, attr = NULL, teststat, Delta,
+permutation_test(object, networks, attr = NULL, teststat, Delta = NULL,
   directed = FALSE, degree.spline = 3, interior.knot = 3,
   lambda.range = seq(-3, 3, by = 0.1), NPerm = 100, seed = 12345)
 }
