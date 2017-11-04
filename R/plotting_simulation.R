@@ -91,6 +91,7 @@ for (u in 1:nstat)
 }
 
 plist = vector("list", nstat)
+ERGM.quantile = ERGM.smooth.quantile = VCERGM.quantile = vector("list", nstat)
 
 for (k in 1:nstat)
 {
@@ -100,9 +101,9 @@ for (k in 1:nstat)
   dat.vcergm = plot.vcergm[plot.vcergm$Stat == stat.k, -c(1:2)]
 
   true.k = plot.true[plot.true$Stat == stat.k, ]
-  ergm.k = quan.data.frame(dat.ergm, stat.k, "ERGM")
-  ergm.smooth.k = quan.data.frame(dat.ergm.smooth, stat.k, "ERGM2")
-  vcergm.k = quan.data.frame(dat.vcergm, stat.k, "VCERGM")
+  ERGM.quantile[[k]] = ergm.k = quan.data.frame(dat.ergm, stat.k, "ERGM")
+  ERGM.smooth.quantile[[k]] = ergm.smooth.k = quan.data.frame(dat.ergm.smooth, stat.k, "ERGM2")
+  VCERGM.quantile[[k]] = vcergm.k = quan.data.frame(dat.vcergm, stat.k, "VCERGM")
 
   quan.dat = rbind(ergm.k, ergm.smooth.k, vcergm.k)
   plist[[k]] = ggplot() + geom_ribbon(data = quan.dat, aes(x = as.factor(Time), ymin = Q1, ymax = Q3,
@@ -125,7 +126,8 @@ for (i in 1:length(plist)) {plist[[i]] = plist[[i]] + theme(legend.position = "n
 plots = do.call("arrangeGrob", c(plist, ncol = nstat))
 grid.arrange(plots, mylegend, heights = c(9/10, 1/10))
 
-if (quantile) {return(list(Summary = Summary, ERGM.quantile = ergm.k, ERGM.smooth.quantile = ergm.smooth.k, VCERGM.quantile = vcergm.k))}
+if (quantile) {return(list(Summary = Summary, ERGM.quantile = ERGM.quantile, 
+                           ERGM.smooth.quantile = ERGM.smooth.quantile, VCERGM.quantile = VCERGM.quantile))}
 else{return(Summary = Summary)}
 }
 
