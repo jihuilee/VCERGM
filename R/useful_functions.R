@@ -4,13 +4,13 @@
 # Calculating quantiles  
 quan.data.frame = function(dat, stat, method) # quantiles = c(0.25, 0.5, 0.75)
 {
-  T = nrow(dat)
+  K = nrow(dat)
   missing.indx = which(is.na(dat[,1]))
-  available.indx = setdiff(1:T, missing.indx)
+  available.indx = setdiff(1:K, missing.indx)
   quan.fun = function(x){quantile(as.numeric(x), probs = c(0.25, 0.5, 0.75), na.rm = TRUE)}
   quan.value = apply(dat, 1, quan.fun)
   out = data.frame(Q1 = quan.value[1,], Median = quan.value[2,], Q3 = quan.value[3,],
-                   Time = 1:T, Stat = rep(stat, T), Method = rep(method, T))
+                   Time = 1:K, Stat = rep(stat, K), Method = rep(method, K))
   return(out)
 }
 

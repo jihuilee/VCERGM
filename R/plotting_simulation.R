@@ -21,7 +21,7 @@
 #' @importFrom gridExtra arrangeGrob
 #' @export
 
-plotting_simulation = function(object, true.phi, ergm.phi.hat, ergm.phi.hat.smooth, vcergm.phi.hat, interval = 10, label = NULL)
+plotting_simulation = function(object, true.phi, ergm.phi.hat, ergm.phi.hat.smooth, vcergm.phi.hat, interval = 10, label = NULL, quantile = FALSE)
 {
 # Number of simulations & time points
 nsim = length(ergm.phi.hat)
@@ -125,7 +125,8 @@ for (i in 1:length(plist)) {plist[[i]] = plist[[i]] + theme(legend.position = "n
 plots = do.call("arrangeGrob", c(plist, ncol = nstat))
 grid.arrange(plots, mylegend, heights = c(9/10, 1/10))
 
-return(Summary = Summary)
+if (quantile) {return(list(Summary = Summary, ERGM.quantile = ergm.k, ERGM.smooth.quantile = ergm.smooth.k, VCERGM.quantile = vcergm.k))}
+else{return(Summary = Summary)}
 }
 
 
