@@ -126,7 +126,7 @@ for (i in 1:length(plist)) {plist[[i]] = plist[[i]] + theme(legend.position = "n
 plots = do.call("arrangeGrob", c(plist, ncol = nstat))
 grid.arrange(plots, mylegend, heights = c(9/10, 1/10))
 
-if (quantile) {return(list(Summary = Summary, ERGM.quantile = ERGM.quantile, 
+if (quantile) {return(list(Summary = Summary, ERGM.quantile = ERGM.quantile,
                            ERGM.smooth.quantile = ERGM.smooth.quantile, VCERGM.quantile = VCERGM.quantile))}
 else{return(Summary = Summary)}
 }
