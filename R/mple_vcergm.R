@@ -37,7 +37,7 @@ mple = function(object, networks, attr, directed, B, degree.spline, lambda.range
     
     if (is.null(attr) == FALSE)
     {
-      if (is.matrix(attr[[s]]) == FALSE) {
+      if (is.vector(attr[[s]])) {
         attr.s = vector("list", 1); attr.s[[1]] = attr[[s]]; names(attr.s) = "attr1"
       } else {attr.s = vector("list", ncol(attr[[s]]))
       for (l in 1:ncol(attr[[s]])) {attr.s[[l]] = attr[[s]][,l]}

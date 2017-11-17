@@ -38,10 +38,10 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
   {
     if (is.null(attr) == FALSE)
     {
-      if (is.matrix(attr[[s]]) == FALSE) {
+      if (is.vector(attr[[s]])) {
         attr.s = vector("list", 1); attr.s[[1]] = attr[[s]]; names(attr.s) = "attr1"
       } else {attr.s = vector("list", ncol(attr[[s]]))
-      for (l in 1:ncol_attr) {attr.s[[l]] = attr[[s]][,l]}
+      for (l in 1:ncol(attr[[s]])) {attr.s[[l]] = attr[[s]][,l]}
       names(attr.s) = paste("attr", 1:ncol(attr[[s]]), sep = "")
       }
       sim.s = network(networks[[s]], vertex.attr = attr.s, directed = directed)
