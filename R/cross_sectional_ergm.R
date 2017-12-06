@@ -1,19 +1,20 @@
 #' Calculate cross-sectional ERGM estimates
 #'
-#' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'. 
+#' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.
 #' @param networks A list of observed networks. It should have a list() object.
 #' @param attr A list of vertex attributes. Default is NULL. (i.e. No attributes)
 #' @param directed TRUE for analyzing directed networks. FALSE for analyzing undirected networks.
 #' @param degree.spline Degree of splines. Default is 3 (cubic splines).
 #' @param interior.knot Number of interior knots to create splines. Default is 10.
 #' @param lambda.range Range of lambda (Tuning parameter). Default is seq(-3, 3, by = 0.1).
-#' 
+#'
 #' @importFrom splines bs
 #' @importFrom network network
 #' @importFrom ergm ergm
+#' @importFrom ergm ergm.update.formula
 #' @export
 
-cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE, FALSE), 
+cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE, FALSE),
                                 degree.spline = 3, interior.knot = 10,
                                 lambda.range = seq(-3, 3, by = 0.1))
   {
@@ -21,20 +22,20 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
   stat = unlist(strsplit(deparse(object[[3]]), " "))
 #  stat = stat[!stat %in% c("+", "=", "TRUE)", "FALSE)")]
   stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "FALSE", "F", "FALSE)", "diff")]
-  
+
   hlength = length(stat)
-  
+
   K = length(networks)
   missing.indx = which(sapply(networks, is.null))
-  available.indx = setdiff(1:K, missing.indx) 
-  
-  q = degree.spline + 1 + interior.knot 
+  available.indx = setdiff(1:K, missing.indx)
+
+  q = degree.spline + 1 + interior.knot
   B = bs(available.indx, df = q, degree = degree.spline, intercept = TRUE)
-  
+
   Bfull = bs(1:K, df = q, degree = degree.spline, intercept = TRUE)
-  
+
   # Cross-sectiona ERGMs
-  phi.hat = matrix(NA, hlength, K) 
+  phi.hat = matrix(NA, hlength, K)
 
   for (s in available.indx)
   {
@@ -48,9 +49,11 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
       }
       sim.s = network(networks[[s]], vertex.attr = attr.s, directed = directed)
     } else {sim.s = network(networks[[s]], directed = directed)}
-    
+
     z = deparse(object[[3]])
-    formula.s = as.formula(paste("sim.s ~ ", z, sep = ""))
+#    formula.s = as.formula(paste("sim.s ~ ", z, sep = ""))
+    formula.s = ergm.update.formula(object, sim.s ~ .)
+
     phi.hat[,s] = ergm(formula.s, estimate = "MPLE")$coef
   }
 
@@ -58,11 +61,11 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
   phi.hat.smooth = matrix(NA, hlength, K)
   for (k in 1:hlength)
   {
-    smooth.coef = Pspline(y = phi.hat[k, available.indx], H = B, lambda.range = lambda.range, 
+    smooth.coef = Pspline(y = phi.hat[k, available.indx], H = B, lambda.range = lambda.range,
                            available.indx = available.indx, B = B, degree.spline = degree.spline)$phicoef
     phi.hat.smooth[k,] = Bfull %*% smooth.coef
   }
-      
+
   rownames(phi.hat) = rownames(phi.hat.smooth) = stat
 
   return(list(phi.hat = phi.hat, phi.hat.smooth = phi.hat.smooth))
