@@ -21,7 +21,7 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
   directed = directed[1]
   stat = unlist(strsplit(deparse(object[[3]]), " "))
 #  stat = stat[!stat %in% c("+", "=", "TRUE)", "FALSE)")]
-  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "FALSE", "F", "FALSE)", "diff")]
+  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
 
   hlength = length(stat)
 

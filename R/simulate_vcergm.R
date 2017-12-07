@@ -42,7 +42,7 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
   # Network statistics
   stat = unlist(strsplit(deparse(object[[3]]), " "))
 #  stat = stat[!stat %in% c("+", "=", "TRUE)", "FALSE)")]
-  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "FALSE", "F", "FALSE)", "diff")]
+  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
   nstat = length(stat)
 
   if (is.null(B) == TRUE) {

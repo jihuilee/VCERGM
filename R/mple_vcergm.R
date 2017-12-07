@@ -78,7 +78,7 @@ mple = function(object, networks, attr, directed, B, degree.spline, lambda.range
   # run the ergmMPLE once to get the coefficient names
   stat.names = unlist(strsplit(deparse(object[[3]]), " "))
   # stat.names = stat.names[!stat.names %in% c("+", "=", "TRUE)", "FALSE)")]
-  stat.names = stat.names[!stat.names %in% c("+", "=", "", "TRUE", "T", "T)", "FALSE", "F", "FALSE)", "diff")]
+  stat.names = stat.names[!stat.names %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
 
   # run a penalized logistic regression of y on design.matrix to get pq x 1 parameter estimates
   # currently not using an intercept term

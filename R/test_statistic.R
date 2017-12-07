@@ -79,7 +79,7 @@ test.stat.s = function(nets, object, attrs = NULL, Bs = NULL,
 
   # Network statistics
   stat = unlist(strsplit(deparse(object[[3]]), " "))
-  stat = stat[!stat %in% c("+", "=", "TRUE)", "FALSE)")]
+  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
   nstat = length(stat)
 
   if (directed == FALSE) {
