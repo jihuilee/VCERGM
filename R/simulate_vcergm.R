@@ -71,7 +71,7 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
     z = deparse(object[[3]])
 
 #    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
-    formula.s = ergm.update.formula(object, nets ~ .)
+    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
 
     # Use an existing function in package 'ergm'
     sims = simulate(object = formula.s, coef = coefs, nsim = nsim, seed = seed,

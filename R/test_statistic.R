@@ -128,11 +128,11 @@ test.stat.s = function(nets, object, attrs = NULL, Bs = NULL,
 
       # When X_ij = 0
 #      form0 = as.formula(paste("net00 ~ ", z, sep = ""))
-      form0 = ergm.update.formula(object, net00 ~ .)
+      form0 = ergm.update.formula(object, net00 ~ ., from.new = TRUE)
 
       # When X_ij = 1
 #      form1 = as.formula(paste("net11 ~ ", z, sep = ""))
-      form1 = ergm.update.formula(object, net11 ~ .)
+      form1 = ergm.update.formula(object, net11 ~ ., from.new = TRUE)
 
 
       # Network statsitics when X_ij = 0 or 1
