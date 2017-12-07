@@ -19,11 +19,12 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
                                 lambda.range = seq(-3, 3, by = 0.1))
   {
   directed = directed[1]
-  stat = unlist(strsplit(deparse(object[[3]]), " "))
-#  stat = stat[!stat %in% c("+", "=", "TRUE)", "FALSE)")]
-  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
 
-  hlength = length(stat)
+#  stat = unlist(strsplit(deparse(object[[3]]), " "))
+#  stat = stat[!stat %in% c("+", "=", "TRUE)", "FALSE)")]
+#  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
+
+#  hlength = length(stat)
 
   K = length(networks)
   missing.indx = which(sapply(networks, is.null))
@@ -35,7 +36,8 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
   Bfull = bs(1:K, df = q, degree = degree.spline, intercept = TRUE)
 
   # Cross-sectiona ERGMs
-  phi.hat = matrix(NA, hlength, K)
+#  phi.hat = matrix(NA, hlength, K)
+  phi.hat = NULL
 
   for (s in available.indx)
   {
@@ -54,19 +56,23 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
 #    formula.s = as.formula(paste("sim.s ~ ", z, sep = ""))
     formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
 
-    phi.hat[,s] = ergm(formula.s, estimate = "MPLE")$coef
+#    phi.hat[,s] = ergm(formula.s, estimate = "MPLE")$coef
+    phi.hat = cbind(phi.hat, ergm(formula.s, estimate = "MPLE")$coef)
   }
 
   # Smoothing
-  phi.hat.smooth = matrix(NA, hlength, K)
+#  phi.hat.smooth = matrix(NA, hlength, K)
+  phi.hat.smooth = NULL
+
   for (k in 1:hlength)
   {
     smooth.coef = Pspline(y = phi.hat[k, available.indx], H = B, lambda.range = lambda.range,
                            available.indx = available.indx, B = B, degree.spline = degree.spline)$phicoef
-    phi.hat.smooth[k,] = Bfull %*% smooth.coef
+#    phi.hat.smooth[k,] = Bfull %*% smooth.coef
+    phi.hat.smooth = rbind(phi.hat.smooth, Bfull %*% smooth.coef)
   }
 
-  rownames(phi.hat) = rownames(phi.hat.smooth) = stat
+#  rownames(phi.hat) = rownames(phi.hat.smooth) = stat
 
   return(list(phi.hat = phi.hat, phi.hat.smooth = phi.hat.smooth))
 }

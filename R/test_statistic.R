@@ -78,9 +78,9 @@ test.stat.s = function(nets, object, attrs = NULL, Bs = NULL,
   netc = c(nets)
 
   # Network statistics
-  stat = unlist(strsplit(deparse(object[[3]]), " "))
-  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
-  nstat = length(stat)
+#  stat = unlist(strsplit(deparse(object[[3]]), " "))
+#  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
+#  nstat = length(stat)
 
   if (directed == FALSE) {
     netseq = netc[c(lower.tri(nets))]
@@ -92,7 +92,8 @@ test.stat.s = function(nets, object, attrs = NULL, Bs = NULL,
   }
 
   if(is.null(Delta) == TRUE) {
-    Delta = matrix(NA, nrow = length(netseq), ncol = nstat)
+#    Delta = matrix(NA, nrow = length(netseq), ncol = nstat)
+    Delta = NULL
 
     for (i in 1:length(netseq))
     {
@@ -139,7 +140,8 @@ test.stat.s = function(nets, object, attrs = NULL, Bs = NULL,
       g0 = summary.statistics(form0, directed = directed)
       g1 = summary.statistics(form1, directed = directed)
 
-      Delta[i, ] = g1 - g0
+#      Delta[i, ] = g1 - g0
+      Delta = rbind(Delta, g1 - g0)
     }
   }
 

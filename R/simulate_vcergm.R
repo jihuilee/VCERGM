@@ -40,10 +40,10 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
   K = length(num.nodes.K) # length of time series
 
   # Network statistics
-  stat = unlist(strsplit(deparse(object[[3]]), " "))
+#  stat = unlist(strsplit(deparse(object[[3]]), " "))
 #  stat = stat[!stat %in% c("+", "=", "TRUE)", "FALSE)")]
-  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
-  nstat = length(stat)
+#  stat = stat[!stat %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "F)", "FALSE)", "diff")]
+#  nstat = length(stat)
 
   if (is.null(B) == TRUE) {
     B = bs(1:K, df = q, degree = 3, intercept = TRUE) }
@@ -68,7 +68,7 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
     nets = network(num.nodes, directed = directed)
 
     #replacing object with current network formula
-    z = deparse(object[[3]])
+#    z = deparse(object[[3]])
 
 #    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
     formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
@@ -84,8 +84,8 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
     {
       network.sims[[1]][[s]] = as.matrix.network(sims, matrix.type = "adjacency")
       h.statistics[[1]][s,] = summary(as.formula(paste("sims ~ ", z, sep = "")))
-#      if (is.null(rownames(phicoef)) == FALSE) {colnames(h.statistics[[1]]) = rownames(phicoef)}
-      colnames(h.statistics[[1]]) = stat
+      if (is.null(rownames(phicoef)) == FALSE) {colnames(h.statistics[[1]]) = rownames(phicoef)}
+#      colnames(h.statistics[[1]]) = stat
     }
 
     if (nsim > 1)
@@ -94,8 +94,8 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
       {
         network.sims[[i]][[s]] = as.matrix(sims[[i]], matrix.type = "adjacency")
         h.statistics[[i]][s, ] = as.matrix(attr(sims, "stats"))[i, ]
-#        if (is.null(rownames(phicoef)) == FALSE) {colnames(h.statistics[[i]]) = rownames(phicoef)}
-        colnames(h.statistics[[i]]) = stat
+        if (is.null(rownames(phicoef)) == FALSE) {colnames(h.statistics[[i]]) = rownames(phicoef)}
+#        colnames(h.statistics[[i]]) = stat
       }
     }
 
