@@ -41,11 +41,10 @@ plotting = function(ergmest, vcergmest, interval = 10, label = NULL)
   for (i in 1:nstat)
   {
     plot.dat.i = plot.dat[plot.dat$Stat == stat[i], ]
-    plist[[i]] = ggplot(data = plot.dat.i, 
-                        aes(x = as.factor(Time), y = Value, col = Method, group = Method)) + 
+    plist[[i]] = ggplot(data = plot.dat.i, aes(x = as.factor(Time), y = Value, col = Method, group = Method)) + 
                   geom_line() + geom_point(size = 1) + xlab("Time") + ylab(expression(hat(phi)(t))) + 
                   scale_x_discrete(breaks = c(1, interval * (1:floor(max(tseq)/interval)))) +
-                  ggtitle(stat[i]) + theme(legend.position = "bottom")
+                  ggtitle(stat[i]) + theme_bw() + theme(legend.position = "bottom")
     
     if (is.null(label) == FALSE) {plist[[i]] = plist[[i]] + ggtitle(label[i])}
   }
