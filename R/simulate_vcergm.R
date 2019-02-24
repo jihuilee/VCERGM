@@ -1,6 +1,7 @@
 #' Simulate new networks at each time point
 #'
 #' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.
+#' @param attr Node-specific attributes. Default is NULL.
 #' @param num.nodes.K Number of nodes at each time point (K x 1 vector)
 #' @param phi TRUE phi(t) functions (number of network statistics x K vector)
 #' @param phicoef TRUE basis coefficients (p x q matrix)
@@ -20,7 +21,7 @@
 #' @importFrom ergm ergm.update.formula
 #' @export
 
-simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
+simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
                            nsim = 100, MCMC.burnin = 10000,
                            MCMC.interval = 1000, seed = 123, directed = c(TRUE, FALSE))
   {
@@ -65,8 +66,29 @@ simulate_vcergm = function(object, num.nodes.K, phi = NULL, phicoef = NULL, B = 
     # beta %*% B (=theta) evaluated at time point u
     if (is.null(phi) == FALSE) {coefs = as.vector(phi[,s])} else {coefs = as.vector(phicoef %*% Bs)}
 
-    nets = network(num.nodes, directed = directed)
+#    nets = network(num.nodes, directed = directed)
 
+    # Attributes
+    if (is.null(attr) == FALSE) {
+      if (is.vector(attr[[s]])) {
+        attr.s = vector("list", 1)
+        attr.s[[1]] = attr[[s]]
+        names(attr.s) = "attr1"
+      }
+      else {
+        attr.s = vector("list", ncol(attr[[s]]))
+        for (l in 1:ncol(attr[[s]])) {
+          attr.s[[l]] = attr[[s]][, l]
+        }
+        names(attr.s) = paste("attr", 1:ncol(attr[[s]]), 
+                              sep = "")
+      }
+      nets = network(nets, vertex.attr = attr.s, directed = directed)
+    }
+    else {
+      nets = network(nets, directed = directed)
+    }
+    
     #replacing object with current network formula
 #    z = deparse(object[[3]])
 
