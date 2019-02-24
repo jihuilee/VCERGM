@@ -74,8 +74,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
         attr.s = vector("list", 1)
         attr.s[[1]] = attr[[s]]
         names(attr.s) = "attr1"
-      }
-      else {
+      } else {
         attr.s = vector("list", ncol(attr[[s]]))
         for (l in 1:ncol(attr[[s]])) {
           attr.s[[l]] = attr[[s]][, l]
@@ -84,8 +83,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
                               sep = "")
       }
       nets = network(nets, vertex.attr = attr.s, directed = directed)
-    }
-    else {
+    } else {
       nets = network(nets, directed = directed)
     }
     
