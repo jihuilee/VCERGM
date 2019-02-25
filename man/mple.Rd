@@ -4,8 +4,8 @@
 \alias{mple}
 \title{Calculate the MPLE of a specified VCERGM}
 \usage{
-mple(object, networks, attr, directed, B, degree.spline, lambda.range, constant,
-  Tol)
+mple(object, networks, attr, directed, B, degree.spline, lambda.range,
+  constant, Tol)
 }
 \arguments{
 \item{object}{A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.}

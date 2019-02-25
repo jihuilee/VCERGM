@@ -66,7 +66,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
     # beta %*% B (=theta) evaluated at time point u
     if (is.null(phi) == FALSE) {coefs = as.vector(phi[,s])} else {coefs = as.vector(phicoef %*% Bs)}
 
-#    nets = network(num.nodes, directed = directed)
+    nets = network(num.nodes, directed = directed)
 
     # Attributes
     if (is.null(attr) == FALSE) {

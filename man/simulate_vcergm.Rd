@@ -4,12 +4,14 @@
 \alias{simulate_vcergm}
 \title{Simulate new networks at each time point}
 \usage{
-simulate_vcergm(object, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
-  nsim = 100, MCMC.burnin = 10000, MCMC.interval = 1000, seed = 123,
-  directed = c(TRUE, FALSE))
+simulate_vcergm(object, attr = NULL, num.nodes.K, phi = NULL,
+  phicoef = NULL, B = NULL, nsim = 100, MCMC.burnin = 10000,
+  MCMC.interval = 1000, seed = 123, directed = c(TRUE, FALSE))
 }
 \arguments{
 \item{object}{A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.}
+
+\item{attr}{Node-specific attributes. Default is NULL.}
 
 \item{num.nodes.K}{Number of nodes at each time point (K x 1 vector)}
 

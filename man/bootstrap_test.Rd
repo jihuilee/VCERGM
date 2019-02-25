@@ -7,7 +7,8 @@
 bootstrap_test(object, networks, attr = NULL, phicoef0 = NULL,
   phi0 = NULL, teststat, directed = FALSE, degree.spline = 3,
   interior.knot = 3, lambda.range = seq(-3, 3, by = 0.1),
-  MCMC.burnin = 10000, MCMC.interval = 1000, NBoot = 1000, seed = 123)
+  MCMC.burnin = 10000, MCMC.interval = 1000, NBoot = 1000,
+  seed = 123)
 }
 \arguments{
 \item{object}{A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.}

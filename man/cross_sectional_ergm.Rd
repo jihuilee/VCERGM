@@ -5,8 +5,8 @@
 \title{Calculate cross-sectional ERGM estimates}
 \usage{
 cross_sectional_ergm(object, networks, attr = NULL, directed = c(TRUE,
-  FALSE), degree.spline = 3, interior.knot = 10, lambda.range = seq(-3, 3,
-  by = 0.1))
+  FALSE), degree.spline = 3, interior.knot = 10,
+  lambda.range = seq(-3, 3, by = 0.1))
 }
 \arguments{
 \item{object}{A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.}
