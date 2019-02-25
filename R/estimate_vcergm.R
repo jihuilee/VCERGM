@@ -57,8 +57,17 @@ estimate_vcergm = function(object, networks, attr = NULL,
   
   #====================================================================
   #Estimate the coefficient matrix beta using MPLE
-  reg = mple(object = object, networks = networks, attr = attr, directed = directed, B = B,
-              degree.spline = degree.spline, lambda.range = lambda.range, constant = constant, Tol = Tol)
+  
+  # Varying network size
+  num.nodes.K = unlist(lapply(networks, nrow))
+  
+  if(length(unique(num.nodes.K)) == 1){
+    reg = mple(object = object, networks = networks, attr = attr, directed = directed, B = B,
+               degree.spline = degree.spline, lambda.range = lambda.range, constant = constant, Tol = Tol)
+  } else{
+    reg = mple2(object = object, networks = networks, attr = attr, directed = directed, B = B,
+               degree.spline = degree.spline, lambda.range = lambda.range, constant = constant, Tol = Tol)
+  }
   #ests = coef(reg$logistic.reg)
   ests = reg$phicoef
   phicoef.hat = matrix(ests, ncol = q)
