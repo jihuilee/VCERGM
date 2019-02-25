@@ -64,7 +64,7 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
 #  phi.hat.smooth = matrix(NA, hlength, K)
   phi.hat.smooth = NULL
 
-  for (k in 1:hlength)
+  for (k in 1:ncol(phi.hat))
   {
     smooth.coef = Pspline(y = phi.hat[k, available.indx], H = B, lambda.range = lambda.range,
                            available.indx = available.indx, B = B, degree.spline = degree.spline)$phicoef
