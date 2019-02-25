@@ -3,6 +3,7 @@
 export(CustomOmega)
 export(Pspline)
 export(bootstrap_test)
+export(calculate_netstat)
 export(cross_sectional_ergm)
 export(estimate_vcergm)
 export(missing_network)
