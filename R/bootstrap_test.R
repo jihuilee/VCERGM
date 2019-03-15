@@ -17,6 +17,7 @@
 #'
 #' @importFrom splines bs
 #' @importFrom ergm simulate.ergm
+#' @importFrom statnet.common nonsimp_update.formula
 #' @export
 
 bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 = NULL, teststat,
@@ -56,7 +57,7 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
 
 #    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
 #    formula.s = ergm.update.formula(object, nets ~ .)
-    formula.s = update(object, nets ~ .)
+    formula.s = nonsimp_update.formula(object, nets ~ .)
     
     # Use an existing function in package 'ergm'
     sims = simulate(object = formula.s, coef = coefs, nsim = NBoot, seed = seed,

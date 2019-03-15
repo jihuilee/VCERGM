@@ -18,6 +18,7 @@
 #' @importFrom ergm simulate.ergm
 #' @importFrom ergm control.simulate
 #' @importFrom ergm ergmMPLE
+#' @importFrom statnet.common nonsimp_update.formula
 #' @export
 
 simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
@@ -91,7 +92,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
 
 #    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
 #    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
-    formula.s = update(object, nets ~ .)
+    formula.s = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
     
     # Use an existing function in package 'ergm'
     sims = simulate(object = formula.s, coef = coefs, nsim = nsim, seed = seed,

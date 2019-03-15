@@ -12,6 +12,7 @@
 #'
 #' @importFrom network network
 #' @importFrom ergm ergmMPLE
+#' @importFrom statnet.common nonsimp_update.formula
 #' @export
 
 mple2 = function(object, networks, attr, directed, B, degree.spline, lambda.range, constant, Tol)
@@ -53,7 +54,7 @@ mple2 = function(object, networks, attr, directed, B, degree.spline, lambda.rang
 
     # replace object with current network formula
     z = deparse(object[[3]])
-    formula.s = update(object, nets ~ .)
+    formula.s = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
 
     # calculate the edges and the associated change matrix
     temp = ergmMPLE(formula.s, output = "matrix")
