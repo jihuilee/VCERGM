@@ -5,7 +5,6 @@
 #' @param attr Node-specific attributes. Default is NULL.
 #' 
 #' @importFrom network network
-#' @importFrom ergm ergm.update.formula
 #' @export
 
 calculate_netstat = function(networks, object, attr = NULL)
@@ -30,7 +29,6 @@ calculate_netstat = function(networks, object, attr = NULL)
       nets = network(nets, directed = directed)
     }
     z = deparse(object[[3]])
-    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
     temp = summary(as.formula(paste("nets ~ ", z, sep = "")))
     netstat = cbind(netstat, temp)
   }

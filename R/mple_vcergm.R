@@ -12,7 +12,6 @@
 #'
 #' @importFrom network network
 #' @importFrom ergm ergmMPLE
-#' @importFrom ergm ergm.update.formula
 #' @export
 
 mple = function(object, networks, attr, directed, B, degree.spline, lambda.range, constant, Tol)
@@ -50,8 +49,9 @@ mple = function(object, networks, attr, directed, B, degree.spline, lambda.range
     # replace object with current network formula
     z = deparse(object[[3]])
 #    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
-    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
-
+#    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
+    formula.s = update(object, nets ~ .)
+    
     # calculate the edges and the associated change matrix
     temp = ergmMPLE(formula.s, output = "matrix")
 

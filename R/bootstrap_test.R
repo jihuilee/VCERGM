@@ -17,7 +17,6 @@
 #'
 #' @importFrom splines bs
 #' @importFrom ergm simulate.ergm
-#' @importFrom ergm ergm.update.formula
 #' @export
 
 bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 = NULL, teststat,
@@ -56,8 +55,9 @@ bootstrap_test = function(object, networks, attr = NULL, phicoef0 = NULL, phi0 =
     } else{nets = network(num.nodes, directed = directed)}
 
 #    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
-    formula.s = ergm.update.formula(object, nets ~ .)
-
+#    formula.s = ergm.update.formula(object, nets ~ .)
+    formula.s = update(object, nets ~ .)
+    
     # Use an existing function in package 'ergm'
     sims = simulate(object = formula.s, coef = coefs, nsim = NBoot, seed = seed,
                     control = control.simulate(MCMC.burnin = MCMC.burnin, MCMC.interval = MCMC.interval))

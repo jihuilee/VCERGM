@@ -18,7 +18,6 @@
 #' @importFrom ergm simulate.ergm
 #' @importFrom ergm control.simulate
 #' @importFrom ergm ergmMPLE
-#' @importFrom ergm ergm.update.formula
 #' @export
 
 simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef = NULL, B = NULL,
@@ -91,8 +90,9 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
 #    z = deparse(object[[3]])
 
 #    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
-    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
-
+#    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
+    formula.s = update(object, nets ~ .)
+    
     # Use an existing function in package 'ergm'
     sims = simulate(object = formula.s, coef = coefs, nsim = nsim, seed = seed,
                     control = control.simulate(MCMC.burnin = MCMC.burnin,

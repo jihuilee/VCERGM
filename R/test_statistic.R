@@ -14,7 +14,6 @@
 #' @importFrom splines bs
 #' @importFrom network network
 #' @importFrom ergm summary.statistics
-#' @importFrom ergm ergm.update.formula
 #' @export
 
 test_statistic = function(object, networks, attr = NULL, degree.spline = 3, interior.knot = 3,
@@ -129,12 +128,14 @@ test.stat.s = function(nets, object, attrs = NULL, Bs = NULL,
 
       # When X_ij = 0
 #      form0 = as.formula(paste("net00 ~ ", z, sep = ""))
-      form0 = ergm.update.formula(object, net00 ~ ., from.new = TRUE)
-
+#      form0 = ergm.update.formula(object, net00 ~ ., from.new = TRUE)
+      form0 = update(object, net00 ~ .)
+      
       # When X_ij = 1
 #      form1 = as.formula(paste("net11 ~ ", z, sep = ""))
-      form1 = ergm.update.formula(object, net11 ~ ., from.new = TRUE)
-
+#      form1 = ergm.update.formula(object, net11 ~ ., from.new = TRUE)
+      form1 = update(object, net11 ~ .)
+      
 
       # Network statsitics when X_ij = 0 or 1
       g0 = summary.statistics(form0, directed = directed)
