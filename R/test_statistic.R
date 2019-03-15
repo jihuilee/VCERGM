@@ -13,7 +13,7 @@
 #'
 #' @importFrom splines bs
 #' @importFrom network network
-#' @importFrom ergm summary.statistics
+#' @importFrom ergm summary_formula
 #' @importFrom statnet.common nonsimp_update.formula
 #' @export
 
@@ -139,8 +139,8 @@ test.stat.s = function(nets, object, attrs = NULL, Bs = NULL,
       
 
       # Network statsitics when X_ij = 0 or 1
-      g0 = summary.statistics(form0, directed = directed)
-      g1 = summary.statistics(form1, directed = directed)
+      g0 = summary_formula(form0, directed = directed)
+      g1 = summary_formula(form1, directed = directed)
 
 #      Delta[i, ] = g1 - g0
       Delta = rbind(Delta, g1 - g0)
