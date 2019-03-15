@@ -65,6 +65,7 @@ mple = function(object, networks, attr, directed, lag, B, degree.spline, lambda.
     
     # change matrix
     h.stats = temp$predictor
+    stat.names = names(h.stats)
     
     # weights
     ww[[s]] = temp$weight
@@ -87,13 +88,14 @@ mple = function(object, networks, attr, directed, lag, B, degree.spline, lambda.
     w = attr(temp, "weights")
     y = attr(temp, "response")
     design.matrix = attr(temp, "effects")
+    stat.names = names(design.matrix)
   }
   
   # run the ergmMPLE once to get the coefficient names
   # stat.names = unlist(strsplit(deparse(object[[3]]), " "))
   # stat.names = stat.names[!stat.names %in% c("+", "=", "TRUE)", "FALSE)")]
   # stat.names = stat.names[!stat.names %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "T)", "FALSE)", "diff")]
-  stat.names = names(h.stats)
+  
   
   # run a penalized logistic regression of y on design.matrix to get pq x 1 parameter estimates
   # currently not using an intercept term
