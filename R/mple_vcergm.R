@@ -83,12 +83,12 @@ mple = function(object, networks, attr, directed, lag, B, degree.spline, lambda.
   
   if(lag > 0) {
     formula.lag = nonsimp_update.formula(object, networks2 ~ ., from.new = TRUE)
-    temp = btergm(formula.lag, R = 100)
+    temp = btergm(formula.lag, R = 0)
     
     w = attr(temp, "weights")
     y = attr(temp, "response")
-    design.matrix = attr(temp, "effects")
-    stat.names = names(design.matrix)
+    design.matrix = as.matrix(attr(temp, "effects"))
+    stat.names = colnames(design.matrix)
   }
   
   # run the ergmMPLE once to get the coefficient names
