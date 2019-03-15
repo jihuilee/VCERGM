@@ -54,7 +54,7 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
     z = deparse(object[[3]])
 #    formula.s = as.formula(paste("sim.s ~ ", z, sep = ""))
 #    formula.s = ergm.update.formula(object, sim.s ~ ., from.new = TRUE)
-    formula.s = update(object, nets ~ .)
+    formula.s = update(object, sim.s ~ .)
 
 #    phi.hat[,s] = ergm(formula.s, estimate = "MPLE")$coef
     phi.hat = cbind(phi.hat, ergm(formula.s, estimate = "MPLE")$coef)
