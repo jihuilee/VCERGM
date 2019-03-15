@@ -3,9 +3,10 @@
 #' @param object A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'. 
 #' @param networks A list of observed networks. It should have a list() object.
 #' @param attr A list of vertex attributes. Default is NULL. (i.e. No attributes)
+#' @param directed TRUE for analyzing directed networks. FALSE for analyzing undirected networks.
+#' @param lag Lag in temporal networks. Default is 0 (i.e. VCERGM(0))
 #' @param degree.spline Degree of splines. Default is 3 (cubic splines).
 #' @param interior.knot Number of interior knots to create splines. Default is 10.
-#' @param directed TRUE for analyzing directed networks. FALSE for analyzing undirected networks.
 #' @param lambda.range Range of lambda (Tuning parameter). Default is seq(-3, 3, by = 0.1).
 #' @param constant TRUE for constrained model of homogeneous VCERGM. FALSE for unconstrained model for heterogeneous VCERGM. Default is FALSE.
 #' @param Tol Tolerance level used for calculating MPLE (IRLS iterations). Default is 0.01.
@@ -14,7 +15,7 @@
 #' @export
 
 estimate_vcergm = function(object, networks, attr = NULL,
-                           directed = c(TRUE, FALSE),
+                           directed = c(TRUE, FALSE), lag = 0,
                            degree.spline = 3,
                            interior.knot = 10,
                            lambda.range = seq(-3, 3, by = 0.1), 
@@ -62,7 +63,7 @@ estimate_vcergm = function(object, networks, attr = NULL,
   num.nodes.K = unlist(lapply(networks, nrow))
   
 #  if(length(unique(num.nodes.K)) == 1){
-    reg = mple(object = object, networks = networks, attr = attr, directed = directed, B = B,
+    reg = mple(object = object, networks = networks, attr = attr, directed = directed, lag = lag, B = B,
                degree.spline = degree.spline, lambda.range = lambda.range, constant = constant, Tol = Tol)
 #  } else{
 #    reg = mple2(object = object, networks = networks, attr = attr, directed = directed, B = B,

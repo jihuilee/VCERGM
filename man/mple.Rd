@@ -4,7 +4,7 @@
 \alias{mple}
 \title{Calculate the MPLE of a specified VCERGM}
 \usage{
-mple(object, networks, attr, directed, B, degree.spline, lambda.range,
+mple(object, networks, attr, directed, lag, B, degree.spline, lambda.range,
   constant, Tol)
 }
 \arguments{
@@ -15,6 +15,8 @@ mple(object, networks, attr, directed, B, degree.spline, lambda.range,
 \item{attr}{attr A list of vertex attributes. Default is NULL. (i.e. No attributes)}
 
 \item{directed}{TRUE for analyzing directed networks. FALSE for analyzing undirected networks.}
+
+\item{lag}{Lag in temporal networks. Default is 0 (i.e. VCERGM(0))}
 
 \item{B}{A set of basis functions (K x q matrix)}
 

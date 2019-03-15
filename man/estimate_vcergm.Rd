@@ -5,7 +5,7 @@
 \title{Estimate VCERGM coefficients}
 \usage{
 estimate_vcergm(object, networks, attr = NULL, directed = c(TRUE,
-  FALSE), degree.spline = 3, interior.knot = 10,
+  FALSE), lag = 0, degree.spline = 3, interior.knot = 10,
   lambda.range = seq(-3, 3, by = 0.1), constant = FALSE, Tol = 0.01)
 }
 \arguments{
@@ -16,6 +16,8 @@ estimate_vcergm(object, networks, attr = NULL, directed = c(TRUE,
 \item{attr}{A list of vertex attributes. Default is NULL. (i.e. No attributes)}
 
 \item{directed}{TRUE for analyzing directed networks. FALSE for analyzing undirected networks.}
+
+\item{lag}{Lag in temporal networks. Default is 0 (i.e. VCERGM(0))}
 
 \item{degree.spline}{Degree of splines. Default is 3 (cubic splines).}
 
