@@ -21,8 +21,10 @@ mple2 = function(object, networks, attr, directed, B, degree.spline, lambda.rang
   missing.indx = which(sapply(networks, is.null))
   available.indx = setdiff(1:K, missing.indx)
 
-#  mean.num.nodes = mean(unlist(lapply(networks, nrow))) # Varying newtork size
-
+  mean.num.nodes = floor(mean(unlist(lapply(networks, nrow)))) # Varying newtork size
+  
+  mean.denom = calculate_weight(object = object, nnodes = mean.num.nodes, attr = attr[[1]])
+  
   # Save the result as list:
   # for each network in the time series, we calculate the change matrix and the vector of edges
 
@@ -59,14 +61,17 @@ mple2 = function(object, networks, attr, directed, B, degree.spline, lambda.rang
     # calculate the edges and the associated change matrix
     temp = ergmMPLE(formula.s, output = "matrix")
 
+    # full network
+    denom.s = calculate_weight(object = object, nnodes = nnodes.s, attr = attr[[s]])
+    
     # observed edges for network
     yy[[s]] = temp$response
 
     # change matrix
-    h.stats = temp$predictor
+    h.stats = temp$predictor / denom.s 
 
     # weights
-    ww[[s]] = temp$weight / sum(temp$weight)
+    ww[[s]] = temp$weight
     #the (n choose 2) x pq part of design matrix
 
     design[[s]] = kronecker(t(Bu), h.stats)
@@ -96,4 +101,23 @@ mple2 = function(object, networks, attr, directed, B, degree.spline, lambda.rang
 
   return(list(phicoef = logistic.reg$phicoef, stat.names = stat.names, lambda = logistic.reg$lambda,
               time.list = end1 - start1, time.mple = end2 - start2))
+}
+
+calculate_weight = function(object, nnodes, attr = NULL)
+{
+  fullnet = matrix(1, nrow = nnodes, ncol = nnodes)
+  
+  if (is.null(attr) == FALSE)
+  {
+    if (is.matrix(attr) == FALSE) {
+      attr.s = vector("list", 1); attr.s = rep(1, nnodes); names(attr.s) = "attr1"
+    } else {attr.s = vector("list", ncol(attr))
+    for (l in 1:ncol(attr)) {attr.s[[l]] = rep(1, nnodes)}
+    names(attr.s) = paste("attr", 1:ncol(attr), sep = "")
+    }
+    nets = network(fullnet, vertex.attr = attr.s, directed = directed)
+  } else{nets = network(fullnet, directed = directed)}
+  
+  fullform = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
+  return(c(ergmMPLE(fullform, output = "matrix")$predictor))
 }
