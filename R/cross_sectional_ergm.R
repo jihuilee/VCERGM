@@ -61,6 +61,11 @@ cross_sectional_ergm = function(object, networks, attr = NULL, directed = c(TRUE
     phi.hat = cbind(phi.hat, ergm(formula.s, estimate = "MPLE")$coef)
   }
 
+  # Inf
+  phi.hat[phi.hat == Inf] = abs(max(phi.hat[phi.hat != Inf])) * 10
+  phi.hat[phi.hat == -Inf] = abs(min(phi.hat[phi.hat != -Inf])) * (-10)
+  #  phi.hat[(phi.hat)^2 == Inf] = NA
+  
   # Smoothing
 #  phi.hat.smooth = matrix(NA, hlength, K)
   phi.hat.smooth = NULL
