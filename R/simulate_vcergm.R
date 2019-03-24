@@ -99,12 +99,12 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
                     control = control.simulate(MCMC.burnin = MCMC.burnin,
                                                MCMC.interval = MCMC.interval))
 
-    netarray = array(NA, dim = c(num.nodes, num.nodes, nsim))
+#    netarray = array(NA, dim = c(num.nodes, num.nodes, nsim))
 
     if (nsim == 1)
     {
       network.sims[[1]][[s]] = as.matrix.network(sims, matrix.type = "adjacency")
-      h.statistics[[1]][s,] = summary(as.formula(paste("sims ~ ", z, sep = "")))
+      h.statistics[[1]][s,] = summary(as.formula(paste("sims ~ ", deparse(object[[3]]), sep = "")))
       if (is.null(rownames(phicoef)) == FALSE) {colnames(h.statistics[[1]]) = rownames(phicoef)}
 #      colnames(h.statistics[[1]]) = stat
     }
@@ -115,7 +115,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
       {
         network.sims[[i]][[s]] = as.matrix(sims[[i]], matrix.type = "adjacency")
         h.statistics[[i]][s, ] = as.matrix(attr(sims, "stats"))[i, ]
-        if (is.null(rownames(phicoef)) == FALSE) {colnames(h.statistics[[i]]) = rownames(phicoef)}
+        if (is.null(names(coefs)) == FALSE) {colnames(h.statistics[[i]]) = names(coefs)}
 #        colnames(h.statistics[[i]]) = stat
       }
     }
