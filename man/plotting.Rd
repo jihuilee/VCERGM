@@ -4,12 +4,21 @@
 \alias{plotting}
 \title{Plot the ERGM and VCERGM results}
 \usage{
-plotting(ergmest, vcergmest, interval = 10, label = NULL)
+plotting(ergmest, vcergmest, interval = 10, xlab = "Time",
+  label = NULL, timeseq = NULL)
 }
 \arguments{
 \item{ergmest}{ERGM estimate object}
 
 \item{vcergmest}{VCERGM estimate object}
+
+\item{interval}{Interval size for time in x-axis. Default is 10.}
+
+\item{xlab}{Name for x-axis. Default is "Time".}
+
+\item{label}{Label(s) for plot title. Default is NULL (Use the label from VCERGM object).}
+
+\item{timeseq}{User defined timeseq. Default is NULL (Time starts from 1).}
 }
 \description{
 Plot the ERGM and VCERGM results
