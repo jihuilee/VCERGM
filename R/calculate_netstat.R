@@ -5,6 +5,7 @@
 #' @param attr Node-specific attributes. Default is NULL.
 #' 
 #' @importFrom network network
+#' @importFrom statnet.common nonsimp_update.formula
 #' @export
 
 calculate_netstat = function(networks, object, attr = NULL)
@@ -29,7 +30,8 @@ calculate_netstat = function(networks, object, attr = NULL)
       nets = network(nets, directed = directed)
     }
     z = deparse(object[[3]])
-    temp = summary(as.formula(paste("nets ~ ", z, sep = "")))
+    formula.s = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
+    temp = summary(formula.s)
     netstat = cbind(netstat, temp)
   }
   colnames(netstat) = 1:length(networks)
