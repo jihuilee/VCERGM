@@ -79,8 +79,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
         for (l in 1:ncol(attr[[s]])) {
           attr.s[[l]] = attr[[s]][, l]
         }
-        names(attr.s) = paste("attr", 1:ncol(attr[[s]]), 
-                              sep = "")
+        names(attr.s) = paste("attr", 1:ncol(attr[[s]]), sep = "")
       }
       nets = network(nets, vertex.attr = attr.s, directed = directed)
     } else {
@@ -95,7 +94,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
     formula.s = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
     
     # Use an existing function in package 'ergm'
-    sims = simulate(object = formula.s, coef = coefs, nsim = nsim, seed = seed,
+    sims = simulate(object = formula.s, coef = coefs, attr = attr.s, nsim = nsim, seed = seed,
                     control = control.simulate(MCMC.burnin = MCMC.burnin,
                                                MCMC.interval = MCMC.interval))
 
