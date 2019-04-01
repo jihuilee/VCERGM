@@ -6,6 +6,7 @@
 #' @param interval Interval size for time in x-axis. Default is 10.
 #' @param timeseq User defined timeseq. Default is NULL (Time starts from 1).
 #' @param xlab Name for x-axis. Default is "Time".
+#' @param theme ggplot theme. Default is NULL.
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
@@ -23,7 +24,7 @@
 #' @importFrom gridExtra arrangeGrob
 #' @export
 
-plotting = function(ergmest, vcergmest, interval = 10, xlab = "Time", label = NULL, timeseq = NULL)
+plotting = function(ergmest, vcergmest, interval = 10, xlab = "Time", label = NULL, timeseq = NULL, theme = NULL)
 {
   ergm.phi.hat = ergmest$phi.hat
   ergm.phi.hat.smooth = ergmest$phi.hat.smooth
@@ -52,9 +53,10 @@ plotting = function(ergmest, vcergmest, interval = 10, xlab = "Time", label = NU
     plist[[i]] = ggplot(data = plot.dat.i, aes(x = as.factor(Time), y = Value, col = Method, group = Method)) +
                   geom_line() + geom_point(size = 1) + xlab("Time") + ylab(expression(hat(phi)(t))) +
                   scale_x_discrete(breaks = c(1, interval * (1:floor(max(timeseq)/interval)))) +
-                  ggtitle(stat[i]) + theme_bw() + theme(legend.position = "bottom") + xlab(xlab)
+                  ggtitle(stat[i]) + theme(legend.position = "bottom") + xlab(xlab)
 
-    if (is.null(label) == FALSE) {plist[[i]] = plist[[i]] + ggtitle(label[i])}
+    if(!is.null(label)) {plist[[i]] = plist[[i]] + ggtitle(label[i])}
+    if(!is.null(theme)) {plist[[i]] = plist[[i]] + theme}
   }
 
   g_legend = function(a.gplot) {

@@ -64,7 +64,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
     Bs = matrix(B[s,])
 
     # beta %*% B (=theta) evaluated at time point u
-    if (is.null(phi) == FALSE) {coefs = as.vector(phi[,s])} else {coefs = as.vector(phicoef %*% Bs)}
+    if (is.null(phi) == FALSE) {coef.s = as.vector(phi[,s])} else {coef.s = as.vector(phicoef %*% Bs)}
 
     nets = network(num.nodes, directed = directed)
 
@@ -87,19 +87,13 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
     }
     
     #replacing object with current network formula
-#    z = deparse(object[[3]])
-
-#    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
 #    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
     formula.s = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
     
     # Use an existing function in package 'ergm'
-    sims = simulate(object = formula.s, coef = coefs, attr = attr.s, nsim = nsim, seed = seed,
+    sims = simulate(object = formula.s, coef = coef.s, attr = attr.s, nsim = nsim, seed = seed,
                     control = control.simulate(MCMC.burnin = MCMC.burnin,
                                                MCMC.interval = MCMC.interval))
-
-#    netarray = array(NA, dim = c(num.nodes, num.nodes, nsim))
-
     if (nsim == 1)
     {
       network.sims[[1]][[s]] = as.matrix.network(sims, matrix.type = "adjacency")
@@ -114,7 +108,7 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
       {
         network.sims[[i]][[s]] = as.matrix(sims[[i]], matrix.type = "adjacency")
         h.statistics[[i]][s, ] = as.matrix(attr(sims, "stats"))[i, ]
-        if (is.null(names(coefs)) == FALSE) {colnames(h.statistics[[i]]) = names(coefs)}
+        if (is.null(names(coef.s)) == FALSE) {colnames(h.statistics[[i]]) = names(coef.s)}
 #        colnames(h.statistics[[i]]) = stat
       }
     }

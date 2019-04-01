@@ -5,7 +5,8 @@
 \title{Plot the ERGM and VCERGM results when nsim > 1}
 \usage{
 plotting_simulation(object, true.phi, ergm.phi.hat, ergm.phi.hat.smooth,
-  vcergm.phi.hat, interval = 10, label = NULL, quantile = FALSE)
+  vcergm.phi.hat, interval = 10, label = NULL, theme = NULL,
+  quantile = FALSE)
 }
 \arguments{
 \item{object}{A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.}
@@ -17,6 +18,8 @@ plotting_simulation(object, true.phi, ergm.phi.hat, ergm.phi.hat.smooth,
 \item{ergm.phi.hat.smooth}{Estimated phi(t) from ad hoc 2-step procedure.}
 
 \item{vcergm.phi.hat}{Estimated phi(t) from VCERGM.}
+
+\item{theme}{ggplot theme. Default is NULL.}
 }
 \description{
 Plot the ERGM and VCERGM results when nsim > 1

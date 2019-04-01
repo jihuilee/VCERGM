@@ -5,6 +5,8 @@
 #' @param ergm.phi.hat Estimated phi(t) from cross-sectional ERGMs. It should be a list of length nsim. For each simulation, the estimated phi.hat is a (number of network statistics x K) matrix.
 #' @param ergm.phi.hat.smooth Estimated phi(t) from ad hoc 2-step procedure.
 #' @param vcergm.phi.hat Estimated phi(t) from VCERGM.
+#' @param theme ggplot theme. Default is NULL.
+#' 
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
@@ -21,7 +23,7 @@
 #' @importFrom gridExtra arrangeGrob
 #' @export
 
-plotting_simulation = function(object, true.phi, ergm.phi.hat, ergm.phi.hat.smooth, vcergm.phi.hat, interval = 10, label = NULL, quantile = FALSE)
+plotting_simulation = function(object, true.phi, ergm.phi.hat, ergm.phi.hat.smooth, vcergm.phi.hat, interval = 10, label = NULL, theme = NULL, quantile = FALSE)
 {
 # Number of simulations & time points
 nsim = length(ergm.phi.hat)
@@ -114,7 +116,8 @@ for (k in 1:nstat)
     xlab("Time") + ylab(expression(hat(phi)(t))) + theme_bw() + theme(legend.position = "bottom")
   plist[[k]] = plist[[k]] + ggtitle(stat[k]) + theme(plot.title = element_text(hjust = 0.5))
 
-  if (is.null(label) == FALSE) {plist[[k]] = plist[[k]] + ggtitle(label[k])}
+  if(!is.null(label)) {plist[[k]] = plist[[k]] + ggtitle(label[k])}
+  if(!is.null(theme)) {plist[[i]] = plist[[i]] + theme}
 }
 
 colnames(Summary) = c("ERGM", "ERGM2", "VCERGM")
