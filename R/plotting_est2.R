@@ -54,7 +54,7 @@ plotting2 = function(ergmest, vcergmest, tergmest, interval = 10, xlab = "Time",
   {
     plot.dat.i = plot.dat[plot.dat$Stat == stat[i], ]
     plist[[i]] = ggplot(data = plot.dat.i, aes(x = as.factor(Time), y = Value, col = Method, group = Method)) +
-                  geom_line() + geom_point(data = plot.dat.i[plot.dat.i$Method != "TERGM",], size = 1) + xlab("Time") + ylab(expression(hat(phi)(t))) +
+                  geom_line() + geom_point(data = plot.dat.i[plot.dat.i$Method != "TERGM", ], size = 1) + xlab("Time") + ylab(expression(hat(phi)(t))) +
                   scale_x_discrete(breaks = c(1, interval * (1:floor(max(timeseq)/interval)))) +
                   ggtitle(stat[i]) + theme(legend.position = "bottom") + xlab(xlab)
 
