@@ -91,9 +91,15 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
     formula.s = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
     
     # Use an existing function in package 'ergm'
-    sims = simulate(object = formula.s, coef = coef.s, attr = attr.s, nsim = nsim, seed = seed,
-                    control = control.simulate(MCMC.burnin = MCMC.burnin,
-                                               MCMC.interval = MCMC.interval))
+    if(is.null(attr)){
+      sims = simulate(object = formula.s, coef = coef.s, nsim = nsim, seed = seed,
+                      control = control.simulate(MCMC.burnin = MCMC.burnin,
+                                                 MCMC.interval = MCMC.interval))
+    } else{
+      sims = simulate(object = formula.s, coef = coef.s, attr = attr.s, nsim = nsim, seed = seed,
+                      control = control.simulate(MCMC.burnin = MCMC.burnin,
+                                                 MCMC.interval = MCMC.interval))
+    }
     if (nsim == 1)
     {
       network.sims[[1]][[s]] = as.matrix.network(sims, matrix.type = "adjacency")
