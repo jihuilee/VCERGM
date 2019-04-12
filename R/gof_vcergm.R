@@ -8,6 +8,7 @@
 #' @param netstat A vector of GoF network statistics names. Default is the name from ERGM estimates.
 #' @param degree.spline Degree of splines. Default is 3 (cubic splines).
 #' @param interior.knot Number of interior knots to create splines. Default is 10.
+#' @param seed Seed number for simulation. Default is 1234.
 #' @param log Logarithm for observed and simulated network statistics. Default is FALSE.
 #'
 #' @importFrom ggplot2 ggplot

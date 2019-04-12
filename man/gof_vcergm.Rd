@@ -25,6 +25,8 @@ gof_vcergm(object, object2 = NULL, networks, attr = NULL,
 
 \item{interior.knot}{Number of interior knots to create splines. Default is 10.}
 
+\item{seed}{Seed number for simulation. Default is 1234.}
+
 \item{log}{Logarithm for observed and simulated network statistics. Default is FALSE.}
 }
 \description{
