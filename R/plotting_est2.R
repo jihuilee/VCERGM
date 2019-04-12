@@ -18,6 +18,7 @@
 #' @importFrom ggplot2 ggtitle
 #' @importFrom ggplot2 scale_x_discrete
 #' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_bw
 #' @importFrom ggplot2 ggplot_gtable
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 ggplot_build

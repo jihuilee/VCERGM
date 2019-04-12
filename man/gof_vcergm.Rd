@@ -6,7 +6,8 @@
 \usage{
 gof_vcergm(object, object2 = NULL, networks, attr = NULL,
   directed = FALSE, netstat = NULL, degree.spline = 3,
-  interior.knot = 10, nsim = 100, seed = 1234, log = FALSE)
+  interior.knot = 10, nsim = 100, seed = 1234, log = FALSE,
+  theme = NULL)
 }
 \arguments{
 \item{object}{A formula object of the form (network object) ~ <model terms>. Model terms take the same form of ERGM terms from R package 'ergm'.}
@@ -28,6 +29,8 @@ gof_vcergm(object, object2 = NULL, networks, attr = NULL,
 \item{seed}{Seed number for simulation. Default is 1234.}
 
 \item{log}{Logarithm for observed and simulated network statistics. Default is FALSE.}
+
+\item{theme}{ggplot theme. Default is NULL.}
 }
 \description{
 Goodness-of-fit diagnostics on VCERGM

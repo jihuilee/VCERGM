@@ -6,7 +6,7 @@
 #' @param ergm.phi.hat.smooth Estimated phi(t) from ad hoc 2-step procedure.
 #' @param vcergm.phi.hat Estimated phi(t) from VCERGM.
 #' @param theme ggplot theme. Default is NULL.
-#' 
+#'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
@@ -16,6 +16,7 @@
 #' @importFrom ggplot2 ggtitle
 #' @importFrom ggplot2 scale_x_discrete
 #' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_bw
 #' @importFrom ggplot2 ggplot_gtable
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 geom_ribbon

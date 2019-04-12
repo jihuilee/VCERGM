@@ -10,19 +10,21 @@
 #' @param interior.knot Number of interior knots to create splines. Default is 10.
 #' @param seed Seed number for simulation. Default is 1234.
 #' @param log Logarithm for observed and simulated network statistics. Default is FALSE.
+#' @param theme ggplot theme. Default is NULL.
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 geom_boxplot
 #' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_bw
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_x_discrete
 #' @importFrom ggplot2 facet_wrap
 #' @export
 
 gof_vcergm = function(object, object2 = NULL, networks, attr = NULL, directed = FALSE, netstat = NULL,
-                      degree.spline = 3, interior.knot = 10, nsim = 100, seed = 1234, log = FALSE)
+                      degree.spline = 3, interior.knot = 10, nsim = 100, seed = 1234, log = FALSE, theme = NULL)
 {
 
   if(is.null(object2)){object2 = object}
@@ -60,8 +62,10 @@ gof_vcergm = function(object, object2 = NULL, networks, attr = NULL, directed = 
   }
 
   out = ggplot() + geom_boxplot(data = sim.netstat, aes(x = as.factor(time), y = value, fill = stat), alpha = 0.1) +
-    theme_bw() + theme(legend.position = "none") + labs(x = "Time", y = "Network statistics") +
+    theme(legend.position = "none") + labs(x = "Time", y = "Network statistics") +
     scale_x_discrete(breaks = c(1, 10 * (1:floor(length(networks)/10)), length(networks))) +
     geom_line(data = obs.netstat, aes(x = time, y = value, color = stat)) + facet_wrap(.~stat, scales = "free_y")
+
+  if(!is.null(theme)) {out = out + theme}
   return(out)
 }
