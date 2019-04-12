@@ -22,10 +22,8 @@ mple = function(object, networks, attr, directed, lag, B, degree.spline, lambda.
   missing.indx = which(sapply(networks, is.null))
   available.indx = setdiff(1:K, missing.indx)
 
-  # Save the result as list:
-  # for each network in the time series, we calculate the change matrix and the vector of edges
-
-  networks2 = design = yy = ww = rep(list(NULL), length(available.indx))
+  # Save the result as list: For each network in the time series, we calculate the change matrix and the vector of edges
+  networks2 = design = xx = yy = ww = rep(list(NULL), length(available.indx))
 
   start1 = Sys.time()
   for (s in 1:length(available.indx)) {
@@ -51,50 +49,46 @@ mple = function(object, networks, attr, directed, lag, B, degree.spline, lambda.
     networks2[[s]] = nets
 
     # replace object with current network formula
-    z = deparse(object[[3]])
-    #    formula.s = as.formula(paste("nets ~ ", z, sep = ""))
-    #    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
     formula.s = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
 
     # calculate the edges and the associated change matrix
-    if(lag == 0) {temp = ergmMPLE(formula.s, output = "matrix")
+    temp = ergmMPLE(formula.s, output = "matrix")
 
     # observed edges for network
     yy[[s]] = temp$response
 
     # change matrix
-    h.stats = temp$predictor
-    stat.names = names(h.stats)
+    xx[[s]] = temp$predictor
 
     # weights
     ww[[s]] = temp$weight
     #the (n choose 2) x pq part of design matrix
 
-    design[[s]] = kronecker(t(Bu), h.stats)}
+    if(lag == 0) {design[[s]] = kronecker(t(Bu), xx[[s]])}
   }
   end1 = Sys.time()
 
-  # Unlist the elements and concatenate them.
+  stat.names = colnames(xx[[1]])
+
+  theta = 0.001
+  if(lag > 0)
+  {
+    h.stats = calculate_netstat(networks = networks, object = object, attr = attr)
+    n.stats = nrow(h.stats)
+    for(l in 1:length(networks))
+    {
+      if(l <= lag) {design[[l]] = kronecker(t(Bu), xx[[l]])} else{
+        Bu = matrix(B[l, ])
+        hstats.l = matrix(rep(h.stats[,l-1], nrow(xx[[l]])), ncol = n.stats, byrow = T)
+        design[[l]] = kronecker(t(Bu), xx[[l]] - theta * hstats.l)
+        }
+    }
+  }
+
+  # Unlist the elements and concatenate them
   w = unlist(ww)
   y = unlist(yy)
-  design.matrix = NULL
-  for (i in 1:length(design)) {design.matrix = rbind(design.matrix, design[[i]])}
-
-  # if(lag > 0) {
-  #   formula.lag = nonsimp_update.formula(object, networks2 ~ ., from.new = TRUE)
-  #   temp = btergm(formula.lag, R = 0)
-  #
-  #   w = attr(temp, "weights")
-  #   y = attr(temp, "response")
-  #   design.matrix = as.matrix(attr(temp, "effects"))
-  #   stat.names = colnames(design.matrix)
-  # }
-
-  # run the ergmMPLE once to get the coefficient names
-  # stat.names = unlist(strsplit(deparse(object[[3]]), " "))
-  # stat.names = stat.names[!stat.names %in% c("+", "=", "TRUE)", "FALSE)")]
-  # stat.names = stat.names[!stat.names %in% c("+", "=", "", "TRUE", "T", "T)", "TRUE)", "FALSE", "F", "T)", "FALSE)", "diff")]
-
+  design.matrix = do.call("rbind", design)
 
   # run a penalized logistic regression of y on design.matrix to get pq x 1 parameter estimates
   # currently not using an intercept term
