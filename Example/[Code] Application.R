@@ -1,61 +1,84 @@
 #################################################
 ## Application (Voting data)                    #
-## Step 1) Calculate the estimates of           #
+## Calculate the estimates of                   #
 ##         a) Cross-sectional ERGMs             #
 ##         b) ad hoc 2-step procedure           #
-##         c) VCERGM                            #
-## Step 2) Hypothesis testing for heterogeneity #
+##         c) TERGM                             #
+##         d) VCERGM                            #
 #################################################
 
-# Load the packge 'devtools' to install the package 'VCERGM'
-library(devtools)
-devtools::install_github('jihuilee/VCERGM')
+rm(list=ls())
 
 library(VCERGM)
 
+# Load the dataset
+# U.S. Congress Political Voting Data
 # Load the data (Congress 40 - 113)
-data(Rollcall)
+# load("Rollcall.RData")
 
+# Load the required packages
+library(splines)
+library(ergm)
+library(ggplot2)
+library(gridExtra)
+library(statnet.common)
+library(btergm)
+
+# Dataset
 networks = Rollcall$networks # Networks
 attr = Rollcall$attr # Political affiliation
 
-object = Net ~ triangle + kstar(2) + nodematch("attr1")
+# Model setup: 
+# Network statistics used for fitting models are 1) Triangle, 1) Two-star, and 3) Political affiliation (nodemix)
+object = Net ~ triangle + kstar(2) + nodemix("attr1")
+stat = c("Triangle", "Two-star", "Dem & Dem", "Dem & Rep", "Rep & Rep")
+directed = FALSE # Undirected network
 
+# Degree of spline and number of knots for basis expansion
 degree.spline = 3
 interior.knot = 30
-directed = FALSE
 
-# Cross-sectional ERGMs and ad hoc 2-step procedure
+# Calculate the estimates of       
+# a) Cross-sectional ERGMs       
+# b) ad hoc 2-step procedure           
+# c) VCERGM     
+# d) TERGM
+
+#####################################################
+# Cross-sectional ERGMs and ad hoc 2-step procedure #
+#####################################################
+
 ergmest = cross_sectional_ergm(object = object, network = networks, attr = attr, directed = directed, 
-                     degree.spline = degree.spline, interior.knot = interior.knot)
+                               degree.spline = degree.spline, interior.knot = interior.knot)
 
-crossERGM_est = ergmest$phi.hat
-adhoc_est = ergmest$phi.hat.smooth
+crossERGM_est = ergmest$phi.hat # Cross-sectional ERGMs: hat(phi(t))
+adhoc_est = ergmest$phi.hat.smooth # Ad hoc 2-step procedure: hat(phi(t))
 
-# VCERGM
+##########
+# VCERGM #
+########## 
+
 vcergmest = estimate_vcergm(object = object, network = networks, attr = attr,
                             degree.spline = degree.spline, interior.knot = interior.knot, 
                             directed = directed, constant = FALSE)
 
-vcergm_est = vcergmest$phicoef.hat
+vcergm_est = vcergmest$phi.hat # VCERGM: hat(phi(t))
 
-# Plotting
-plotting(ergmest, vcergmest)
+######### 
+# TERGM #
+######### 
 
-# Hypothesis Test
-NBoot = 1000
+# Convert a list of adjacency matrices into a list of network objects
+networks2 = from_adj_to_net(networks, attr, directed)
+object2 = nonsimp_update.formula(object, networks2 ~ ., from.new = TRUE)
 
-# Estimate under H0
-est0 = estimate_vcergm(object = object, network = networks, attr = attr,
-                       degree.spline = degree.spline, interior.knot = interior.knot, 
-                       directed = directed, constant = TRUE) # Constant = TRUE (No temporal heterogeneity)
+tergmest = btergm(object2, R = 200)
 
-# Calculate test statistic
-teststat = test_statistic(object = object, networks = networks, attr = attr, 
-                          phi0 = est0$phi.hat, phi1 = vcergmest$phi.hat, 
-                          directed = directed)
+tergm_est = attr(tergmest, "coef") # TERGM: hat(phi)
 
-# P-value
-boot = bootstrap_test(object = object, networks = networks, phicoef0 = est0$phicoef.hat, teststat = teststat,
-                      degree.spline = degree.spline, interior.knot = interior.knot, directed = directed, 
-                      NBoot = NBoot)
+#nstat = nrow(ergm.phi.hat) # Number of network statistics
+stat = rownames(ergm.phi.hat) # Name of network statistics
+#ntime = length(timeseq) # Number of time points
+
+# Plotting the results
+plotting2(ergmest, vcergmest, tergmest, label = stat, timeseq = 40:113, xlab = "Congress")
