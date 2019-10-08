@@ -12,7 +12,6 @@
 #' @param seed Seed number used to simulate bootstrap samples. Default is 12345.
 #'
 #' @importFrom splines bs
-#' @importFrom ergm simulate.ergm
 #' @export
 
 permutation_test = function(object, networks, attr = NULL, teststat, Delta = NULL,
@@ -23,7 +22,7 @@ permutation_test = function(object, networks, attr = NULL, teststat, Delta = NUL
 
   Perm.seq = matrix(NA, nrow = NPerm, ncol = K)
   perm.teststat = rep(NA, NPerm)
-  
+
   for(p in 1:NPerm)
   {
     set.seed(seed + p)

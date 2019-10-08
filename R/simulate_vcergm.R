@@ -15,7 +15,6 @@
 #' @importFrom splines bs
 #' @importFrom network network
 #' @importFrom network as.matrix.network
-#' @importFrom ergm simulate.ergm
 #' @importFrom ergm control.simulate
 #' @importFrom ergm ergmMPLE
 #' @importFrom statnet.common nonsimp_update.formula
@@ -85,11 +84,11 @@ simulate_vcergm = function(object, attr = NULL, num.nodes.K, phi = NULL, phicoef
     } else {
       nets = network(nets, directed = directed)
     }
-    
+
     #replacing object with current network formula
 #    formula.s = ergm.update.formula(object, nets ~ ., from.new = TRUE)
     formula.s = nonsimp_update.formula(object, nets ~ ., from.new = TRUE)
-    
+
     # Use an existing function in package 'ergm'
     if(is.null(attr)){
       sims = simulate(object = formula.s, coef = coef.s, nsim = nsim, seed = seed,
